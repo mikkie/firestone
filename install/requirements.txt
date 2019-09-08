@@ -1,4 +1,0 @@
-lxml
-requests
-bs4
-tushare
