@@ -7,7 +7,7 @@
           <label for="available_amount">账户信息:</label>
         </b-col>
         <b-col lg="6" class="input">
-          <b-button id="available_amount" href="#"  variant="success" size="sm">查看</b-button>
+          <b-link href="#foo">查看</b-link>
         </b-col>
       </b-row>
       <b-row>  
