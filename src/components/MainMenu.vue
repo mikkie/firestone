@@ -51,7 +51,7 @@ export default {
   name: "mainmenu",
   methods: {
     start(evt) {
-      this.$router.push({ path:'/menu' })
+      this.$router.push({ path:'/home' })
     }
   }
 };
