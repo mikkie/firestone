@@ -12,10 +12,9 @@
             style="max-width: 20rem;"
             class="mb-2"
           >
-            <b-card-text>同花顺模拟账号进行交易.</b-card-text>
+            <div class="desc">同花顺模拟账号进行交易.</div>
             <div>
               <b-button
-                href="#"
                 variant="primary"
                 v-on:click="start"
               >进入</b-button>
@@ -32,10 +31,9 @@
             style="max-width: 20rem;"
             class="mb-2"
           >
-            <b-card-text>实盘交易(暂不开放).</b-card-text>
+            <div class="desc">实盘交易(暂不开放).</div>
             <div>
               <b-button
-                href="#"
                 variant="primary"
               >进入</b-button>
             </div>
@@ -51,7 +49,7 @@ export default {
   name: "mainmenu",
   methods: {
     start(evt) {
-      this.$router.push({ path:'/home' })
+      this.$router.push({ path:'/configm' })
     }
   }
 };

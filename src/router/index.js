@@ -2,7 +2,8 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Login from '@/components/Login'
 import MainMenu from '@/components/MainMenu'
-import Home from '@/components/Home'
+import ConfigM from '@/components/ConfigM'
+import HomeM from '@/components/HomeM'
 
 Vue.use(Router)
 
@@ -19,9 +20,14 @@ export default new Router({
       component: MainMenu
     },
     {
-      path: '/home',
-      name: 'Home',
-      component: Home
+      path: '/configm',
+      name: 'ConfigM',
+      component: ConfigM
+    },
+    {
+      path: '/homem',
+      name: 'HomeM',
+      component: HomeM
     }
   ]
 })

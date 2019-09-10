@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <h5>交易设置</h5>
+  <div class="configm">
+    <h5>模拟交易设置</h5>
     <b-container>
       <b-row>
         <b-col lg="6" class="label">
@@ -12,17 +12,17 @@
       </b-row>
       <b-row>  
         <b-col lg="6" class="label">
-          <label for="max_buy_amount">单笔最大买入额:</label>
+          <label for="max_buy_amount">当日最大买入数:</label>
         </b-col>
         <b-col lg="2" class="input">
-          <b-input-group size="sm" prepend="￥">
+          <b-input-group size="sm" append="只">
             <b-form-input></b-form-input>
           </b-input-group>
         </b-col> 
       </b-row>
       <b-row>  
         <b-col lg="12">
-          <b-button id="available_amount" href="#"  variant="primary">保存</b-button>
+          <b-button id="available_amount" v-on:click="start"  variant="primary">保存</b-button>
         </b-col> 
       </b-row>
     </b-container>  
@@ -30,11 +30,16 @@
 </template>
 <script>
 export default {
-    name: "home",
+    name: "config_m",
     data() {
-    return {
-    };
-  }
+      return {
+      };
+    },
+    methods: {
+      start(evt) {
+        this.$router.push({ path:'/homem' })
+      }
+    }
 }
 </script>
 <style>
