@@ -5,13 +5,13 @@
       <b-collapse id="nav-collapse" is-nav>
       <!-- Right aligned nav items -->
       <b-navbar-nav class="ml-auto">
-        <b-nav-item href="#">历史</b-nav-item> 
+        <b-nav-item href="void(0)" v-on:click="goHistory">历史</b-nav-item> 
         <b-nav-item-dropdown right>
           <!-- Using 'button-content' slot -->
           <template v-slot:button-content>
             <em>用户</em>
           </template>
-          <b-dropdown-item href="/configm">账户</b-dropdown-item>
+          <b-dropdown-item href="void(0)" v-on:click="goConfig">账户</b-dropdown-item>
           <b-dropdown-item href="/">实盘</b-dropdown-item>
           <b-dropdown-item href="/">退出</b-dropdown-item>
         </b-nav-item-dropdown>
@@ -26,7 +26,17 @@
 
 <script>
 export default {
-  name: 'app'
+  name: 'app',
+  methods: {
+    goHistory(evt) {
+      evt.preventDefault()
+      this.$router.push({ path:'/historym' })
+    },
+    goConfig(evt) {
+      evt.preventDefault()
+      this.$router.push({ path:'/configm' })
+    }
+  }
 }
 </script>
 

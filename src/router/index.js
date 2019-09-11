@@ -4,6 +4,7 @@ import Login from '@/components/Login'
 import MainMenu from '@/components/MainMenu'
 import ConfigM from '@/components/ConfigM'
 import HomeM from '@/components/HomeM'
+import HistoryM from '@/components/HistoryM'
 
 Vue.use(Router)
 
@@ -28,6 +29,11 @@ export default new Router({
       path: '/homem',
       name: 'HomeM',
       component: HomeM
+    },
+    {
+      path: '/historym',
+      name: 'HistoryM',
+      component: HistoryM
     }
   ]
 })
