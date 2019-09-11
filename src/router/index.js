@@ -5,6 +5,7 @@ import MainMenu from '@/components/MainMenu'
 import ConfigM from '@/components/ConfigM'
 import HomeM from '@/components/HomeM'
 import HistoryM from '@/components/HistoryM'
+import Basic from '@/components/strategy/Basic'
 
 Vue.use(Router)
 
@@ -34,6 +35,11 @@ export default new Router({
       path: '/historym',
       name: 'HistoryM',
       component: HistoryM
+    },
+    {
+      path: '/strategy/basic',
+      name: 'Basic',
+      component: Basic
     }
   ]
 })

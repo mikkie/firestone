@@ -17,7 +17,7 @@
               <b-form-checkbox class="mb-2 mr-sm-2 mb-sm-0"></b-form-checkbox>
            </template>
            <template v-slot:cell(strategy)="data">  
-             <b-link href="#foo">{{ data.value }}</b-link>
+             <b-link href="void(0)" v-on:click="goBasic">{{ data.value }}</b-link>
            </template>  
         </b-table>  
       </div>
@@ -79,7 +79,13 @@ export default {
           { value: 'advanced', text: '打板策略' },
         ],
       }
+    },
+  methods: {  
+    goBasic(evt) {
+      evt.preventDefault()
+      this.$router.push({ path:'/strategy/basic' })
     }
+  }
 };
 </script>
 <style>
