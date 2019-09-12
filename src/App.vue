@@ -2,7 +2,7 @@
   <div id="app">
     <b-navbar toggleable="lg" type="dark" variant="dark">
       <b-navbar-brand href="#">Firestone</b-navbar-brand>
-      <b-collapse id="nav-collapse" is-nav>
+      <b-collapse id="nav-collapse" is-nav v-if="isLogined">
       <!-- Right aligned nav items -->
       <b-navbar-nav class="ml-auto">
         <b-nav-item href="void(0)" v-on:click="goHistory">历史</b-nav-item> 
@@ -27,6 +27,11 @@
 <script>
 export default {
   name: 'app',
+  data() {
+    return {
+      isLogined: false
+    };
+  },
   methods: {
     goHistory(evt) {
       evt.preventDefault()

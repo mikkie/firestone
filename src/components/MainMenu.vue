@@ -47,6 +47,9 @@
 <script>
 export default {
   name: "mainmenu",
+  created: function () {
+    this.$parent.isLogined = true
+  },
   methods: {
     start(evt) {
       this.$router.push({ path:'/configm' })

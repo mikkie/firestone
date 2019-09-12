@@ -8,6 +8,7 @@
             <b-form-input
               placeholder="用户名"
               type="text"
+              required
             ></b-form-input>
           </b-col>
         </b-form-row>
@@ -16,6 +17,7 @@
             <b-form-input
               placeholder="密码"
               type="password"
+              required
             ></b-form-input>
           </b-col>
         </b-form-row>
