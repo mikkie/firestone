@@ -5,7 +5,7 @@
         <b-col lg="3">
           <b-card
             title="模拟"
-            img-src="https://picsum.photos/600/300/?image=1015"
+            img-src="../assets/sim.jpg"
             img-alt="Image"
             img-top
             tag="article"
@@ -24,7 +24,7 @@
         <b-col lg="3">
           <b-card
             title="实盘"
-            img-src="https://picsum.photos/600/300/?image=1022"
+            img-src="../assets/real.jpg"
             img-alt="Image"
             img-top
             tag="article"
@@ -34,7 +34,7 @@
             <div class="desc">实盘交易(暂不开放).</div>
             <div>
               <b-button
-                variant="primary"
+                variant="danger"
               >进入</b-button>
             </div>
           </b-card>
