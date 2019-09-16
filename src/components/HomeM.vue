@@ -14,7 +14,7 @@
       <div>
         <b-table striped hover :fields="fields" :items="items">
            <template v-slot:cell(checked)="data">
-              <b-form-checkbox class="mb-2 mr-sm-2 mb-sm-0" v-model="checked"></b-form-checkbox>
+              <b-form-checkbox class="mb-2 mr-sm-2 mb-sm-0" v-model="data.value"></b-form-checkbox>
            </template>
            <template v-slot:cell(strategy)="data">  
              <b-link href="void(0)" v-on:click="goBasic">{{ data.value }}</b-link>
@@ -64,8 +64,8 @@ export default {
             }
         ],  
         items: [
-          {checked: true, code: '005688', strategy: '基础策略', state: '运行中', result: '无' },
-          {checked: false, code: '300234', strategy: '基础策略', state: '停止', result: '无' },
+          {checked: false, code: '005688', strategy: '基础策略', state: '运行中', result: '无' },
+          {checked: true, code: '300234', strategy: '基础策略', state: '停止', result: '无' },
           {checked: false, code: '600879', strategy: '基础策略', state: '运行中', result: '无' }
         ],
         currentItem: null,
