@@ -48,7 +48,7 @@
 export default {
   name: "mainmenu",
   created: function () {
-    this.$parent.isLogined = true
+    this.$emit("login", true);
   },
   methods: {
     start(evt) {

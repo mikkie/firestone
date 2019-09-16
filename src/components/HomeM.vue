@@ -6,15 +6,15 @@
         <b-form inline class="toobar">
           <b-form-checkbox class="mb-2 mr-sm-2 mb-sm-0"></b-form-checkbox>
           <b-button variant="success" size="md" v-b-modal.modal>新建</b-button>
-          <b-button variant="danger" size="md">删除</b-button>
+          <b-button variant="danger" size="md" v-on:click="deleteItem">删除</b-button>
           <b-button variant="warning" size="md">启动</b-button>
           <b-button variant="info" size="md">停止</b-button>
         </b-form>
       </div>
       <div>
         <b-table striped hover :fields="fields" :items="items">
-           <template v-slot:cell(index)="data">
-              <b-form-checkbox class="mb-2 mr-sm-2 mb-sm-0"></b-form-checkbox>
+           <template v-slot:cell(checked)="data">
+              <b-form-checkbox class="mb-2 mr-sm-2 mb-sm-0" v-model="checked"></b-form-checkbox>
            </template>
            <template v-slot:cell(strategy)="data">  
              <b-link href="void(0)" v-on:click="goBasic">{{ data.value }}</b-link>
@@ -43,7 +43,7 @@ export default {
       return {
         fields: [
             {
-                key : 'index',
+                key : 'checked',
                 label : '选中'
             },
             {
@@ -64,10 +64,11 @@ export default {
             }
         ],  
         items: [
-          {code: '005688', strategy: '基础策略', state: '运行中', result: '无' },
-          {code: '300234', strategy: '基础策略', state: '停止', result: '无' },
-          {code: '600879', strategy: '基础策略', state: '运行中', result: '无' },
+          {checked: true, code: '005688', strategy: '基础策略', state: '运行中', result: '无' },
+          {checked: false, code: '300234', strategy: '基础策略', state: '停止', result: '无' },
+          {checked: false, code: '600879', strategy: '基础策略', state: '运行中', result: '无' }
         ],
+        currentItem: null,
         selected_bs: 'buy',
         options_bs: [
           { value: 'buy', text: '买' },
@@ -82,8 +83,10 @@ export default {
     },
   methods: {  
     goBasic(evt) {
-      evt.preventDefault()
-      this.$router.push({ path:'/strategy/basic' })
+      evt.preventDefault();
+      this.$router.push({ path:'/strategy/basic' });
+    },
+    deleteItem(evt) {
     }
   }
 };

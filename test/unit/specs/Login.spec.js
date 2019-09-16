@@ -7,7 +7,5 @@ describe('Login.vue', () => {
     const vm = new Constructor().$mount()
     expect(vm.$el.querySelector('.login h2').textContent)
       .to.equal('Firestone')
-    expect(vm.$el.querySelector('#nav-collapse'))
-      .to.be.null  
   })
 })

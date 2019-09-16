@@ -5,7 +5,7 @@
       <b-collapse id="nav-collapse" is-nav v-if="isLogined">
       <!-- Right aligned nav items -->
       <b-navbar-nav class="ml-auto">
-        <b-nav-item href="void(0)" v-on:click="goHistory">历史</b-nav-item> 
+        <b-nav-item href="void(0)" v-on:click="goHistory">历史</b-nav-item>
         <b-nav-item-dropdown right>
           <!-- Using 'button-content' slot -->
           <template v-slot:button-content>
@@ -19,7 +19,7 @@
     </b-collapse>
     </b-navbar>
     <main>
-      <router-view></router-view>
+      <router-view @login="updateLogin"></router-view>
     </main>
   </div>
 </template>
@@ -40,6 +40,9 @@ export default {
     goConfig(evt) {
       evt.preventDefault()
       this.$router.push({ path:'/configm' })
+    }, 
+    updateLogin(isLogined){
+      this.isLogined = isLogined;
     }
   }
 }
@@ -79,5 +82,28 @@ header span {
   font-weight: 400;
   box-sizing: border-box;
   padding-top: 16px;
+}
+
+.navbar a:link {
+  color:bisque;
+  text-decoration: none;
+}
+
+.navbar a:hover {
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.navbar a:visited {
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.dropdown-menu-right{
+  background-color: #2c3e50;
+}
+
+.dropdown-item:hover {
+  background-color: purple;
 }
 </style>
