@@ -16,7 +16,7 @@
           <b-button
             variant="danger"
             size="md"
-            v-on:click="deleteItem"
+            v-on:click="openDelConfirm"
           >删除</b-button>
           <b-button
             variant="warning"
@@ -68,6 +68,19 @@
           :options="options_startegy"
         ></b-form-select>
       </b-form>
+      <template v-slot:modal-ok="ok">
+        确定
+      </template>
+      <template v-slot:modal-cancel="cancel">
+        取消
+      </template>
+    </b-modal>
+    <b-modal
+      ref="modal1"
+      title="删除策略"
+      @ok="deleteItem"
+    >
+      <p>确定删除策略?</p>
       <template v-slot:modal-ok="ok">
         确定
       </template>
@@ -161,12 +174,15 @@ export default {
       this.$emit("tips", "danger", "请勾选要操作的行");
       return false;
     },
-    deleteItem(evt) {
+    openDelConfirm(evt){
       if (this.check_selected()) {
-        for (let i in this.items) {
-          if (this.items[i].checked == true) {
-            this.items.splice(i, 1);
-          }
+        this.$refs['modal1'].show()
+      }  
+    },
+    deleteItem(evt) {
+      for (let i = this.items.length - 1; i >= 0; i--) {
+        if (this.items[i].checked == true) {
+          this.items.splice(i, 1);
         }
       }
     },
