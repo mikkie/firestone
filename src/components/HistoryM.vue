@@ -26,7 +26,7 @@
         >
           <template v-slot:cell(strategy)="data">
             <b-link
-              href="void(0)"
+              href="javascript:void(0)"
               v-on:click="goBasic"
             >{{ data.value }}</b-link>
           </template>
@@ -38,6 +38,9 @@
 <script>
 export default {
   name: "home_m",
+  created: function () {
+    this.$emit("login", true);
+  },
   data() {
     return {
       fields: [

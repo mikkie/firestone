@@ -88,6 +88,9 @@ export default {
       return {
       };
     },
+    created: function () {
+      this.$emit("login", true);
+    },
     methods: {
       save(evt) {
         this.$router.push({ path:'/homem' })

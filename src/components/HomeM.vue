@@ -3,98 +3,172 @@
     <h5>模拟交易</h5>
     <b-container>
       <div>
-        <b-form inline class="toobar">
+        <b-form
+          inline
+          class="toobar"
+        >
           <b-form-checkbox class="mb-2 mr-sm-2 mb-sm-0"></b-form-checkbox>
-          <b-button variant="success" size="md" v-b-modal.modal>新建</b-button>
-          <b-button variant="danger" size="md" v-on:click="deleteItem">删除</b-button>
-          <b-button variant="warning" size="md">启动</b-button>
-          <b-button variant="info" size="md">停止</b-button>
+          <b-button
+            variant="success"
+            size="md"
+            v-b-modal.modal
+          >新建</b-button>
+          <b-button
+            variant="danger"
+            size="md"
+            v-on:click="deleteItem"
+          >删除</b-button>
+          <b-button
+            variant="warning"
+            size="md"
+          >启动</b-button>
+          <b-button
+            variant="info"
+            size="md"
+          >停止</b-button>
         </b-form>
       </div>
       <div>
-        <b-table striped hover :fields="fields" :items="items">
-           <template v-slot:cell(checked)="data">
-              <b-form-checkbox class="mb-2 mr-sm-2 mb-sm-0" v-model="data.value"></b-form-checkbox>
-           </template>
-           <template v-slot:cell(strategy)="data">  
-             <b-link href="void(0)" v-on:click="goBasic">{{ data.value }}</b-link>
-           </template>  
-        </b-table>  
+        <b-table
+          striped
+          hover
+          :fields="fields"
+          :items="items"
+        >
+          <template v-slot:cell(checked)="data">
+            <b-form-checkbox
+              class="mb-2 mr-sm-2 mb-sm-0"
+              v-model="data.value"
+              v-on:input="check_line($event,data)"
+            ></b-form-checkbox>
+          </template>
+          <template v-slot:cell(strategy)="data">
+            <b-link
+              href="javascript:void(0)"
+              v-on:click="goBasic"
+            >{{ data.value }}</b-link>
+          </template>
+        </b-table>
       </div>
     </b-container>
-    <b-modal id="modal" title="选择策略">
+    <b-modal
+      id="modal"
+      title="选择策略"
+    >
       <b-form inline>
-        <b-form-select v-model="selected_bs" :options="options_bs"></b-form-select>
-        <b-form-select v-model="selected_startegy" :options="options_startegy"></b-form-select>
+        <b-form-select
+          v-model="selected_bs"
+          :options="options_bs"
+        ></b-form-select>
+        <b-form-select
+          v-model="selected_startegy"
+          :options="options_startegy"
+        ></b-form-select>
       </b-form>
       <template v-slot:modal-ok="ok">
-         确定
+        确定
       </template>
       <template v-slot:modal-cancel="cancel">
-         取消
+        取消
       </template>
-    </b-modal> 
+    </b-modal>
   </div>
 </template>
 <script>
 export default {
   name: "home_m",
   data() {
-      return {
-        fields: [
-            {
-                key : 'checked',
-                label : '选中'
-            },
-            {
-                key : 'code',
-                label : '代码'
-            },
-            {
-                key : 'strategy',
-                label : '策略'
-            },
-            {
-                key : 'state',
-                label : '状态'
-            },
-            {
-                key : 'result',
-                label : '交易结果'
-            }
-        ],  
-        items: [
-          {checked: false, code: '005688', strategy: '基础策略', state: '运行中', result: '无' },
-          {checked: true, code: '300234', strategy: '基础策略', state: '停止', result: '无' },
-          {checked: false, code: '600879', strategy: '基础策略', state: '运行中', result: '无' }
-        ],
-        currentItem: null,
-        selected_bs: 'buy',
-        options_bs: [
-          { value: 'buy', text: '买' },
-          { value: 'sell', text: '卖' },
-        ],
-        selected_startegy: 'basic',
-        options_startegy: [
-          { value: 'basic', text: '基础策略' },
-          { value: 'advanced', text: '打板策略' },
-        ],
-      }
-    },
-  methods: {  
+    return {
+      fields: [
+        {
+          key: "checked",
+          label: "选中"
+        },
+        {
+          key: "code",
+          label: "代码"
+        },
+        {
+          key: "strategy",
+          label: "策略"
+        },
+        {
+          key: "state",
+          label: "状态"
+        },
+        {
+          key: "result",
+          label: "交易结果"
+        }
+      ],
+      items: [
+        {
+          checked: false,
+          code: "005688",
+          strategy: "基础策略",
+          state: "运行中",
+          result: "无"
+        },
+        {
+          checked: false,
+          code: "300234",
+          strategy: "基础策略",
+          state: "停止",
+          result: "无"
+        },
+        {
+          checked: false,
+          code: "600879",
+          strategy: "基础策略",
+          state: "运行中",
+          result: "无"
+        }
+      ],
+      selected_bs: "buy",
+      options_bs: [{ value: "buy", text: "买" }, { value: "sell", text: "卖" }],
+      selected_startegy: "basic",
+      options_startegy: [
+        { value: "basic", text: "基础策略" },
+        { value: "advanced", text: "打板策略" }
+      ]
+    };
+  },
+  created: function() {
+    this.$emit("login", true);
+  },
+  methods: {
     goBasic(evt) {
       evt.preventDefault();
-      this.$router.push({ path:'/strategy/basic' });
+      this.$router.push({ path: "/strategy/basic" });
+    },
+    check_line(evt, data) {
+      data.item.checked = evt;
+    },
+    check_selected() {
+      for (let i in this.items) {
+        if (this.items[i].checked == true) {
+          return true;
+        }
+      }
+      this.$emit("tips", "danger", "请勾选要操作的行");
+      return false;
     },
     deleteItem(evt) {
+      if (this.check_selected()) {
+        for (let i in this.items) {
+          if (this.items[i].checked == true) {
+            this.items.splice(i, 1);
+          }
+        }
+      }
     }
   }
 };
 </script>
 <style>
-  .toobar button {
-     margin: 3px; 
-  }
+.toobar button {
+  margin: 3px;
+}
 </style>
 
 
