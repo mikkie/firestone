@@ -19,6 +19,6 @@ describe('HomeM.vue', () => {
     expect(vm.$el.querySelectorAll('tbody tr').length)
       .to.equal(4)
     expect(vm.$el.querySelector('tbody tr:nth-child(2) td input').value)
-      .to.equal(true)
+      .to.equal('true')
   })
 })
