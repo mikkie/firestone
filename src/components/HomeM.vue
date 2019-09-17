@@ -7,7 +7,7 @@
           inline
           class="toobar"
         >
-          <b-form-checkbox class="mb-2 mr-sm-2 mb-sm-0"></b-form-checkbox>
+          <b-form-checkbox class="mb-2 mr-sm-2 mb-sm-0" v-on:input="check_all($event)"></b-form-checkbox>
           <b-button
             variant="success"
             size="md"
@@ -21,10 +21,12 @@
           <b-button
             variant="warning"
             size="md"
+            v-on:click="bootItem"
           >启动</b-button>
           <b-button
             variant="info"
             size="md"
+            v-on:click="stopItem"
           >停止</b-button>
         </b-form>
       </div>
@@ -54,6 +56,7 @@
     <b-modal
       id="modal"
       title="选择策略"
+      @ok="goBasic"
     >
       <b-form inline>
         <b-form-select
@@ -106,7 +109,7 @@ export default {
           checked: false,
           code: "005688",
           strategy: "基础策略",
-          state: "运行中",
+          state: "停止",
           result: "无"
         },
         {
@@ -120,7 +123,7 @@ export default {
           checked: false,
           code: "600879",
           strategy: "基础策略",
-          state: "运行中",
+          state: "停止",
           result: "无"
         }
       ],
@@ -141,6 +144,11 @@ export default {
       evt.preventDefault();
       this.$router.push({ path: "/strategy/basic" });
     },
+    check_all(evt){
+      for (let i in this.items) {
+        this.items[i].checked = evt;
+      }
+    },
     check_line(evt, data) {
       data.item.checked = evt;
     },
@@ -158,6 +166,24 @@ export default {
         for (let i in this.items) {
           if (this.items[i].checked == true) {
             this.items.splice(i, 1);
+          }
+        }
+      }
+    },
+    bootItem(evt) {
+      if (this.check_selected()) {
+        for (let i in this.items) {
+          if (this.items[i].checked == true) {
+            this.items[i].state = '运行中';
+          }
+        }
+      }
+    },
+    stopItem(evt) {
+      if (this.check_selected()) {
+        for (let i in this.items) {
+          if (this.items[i].checked == true) {
+            this.items[i].state = '停止';
           }
         }
       }
