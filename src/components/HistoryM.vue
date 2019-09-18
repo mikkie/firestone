@@ -45,6 +45,10 @@ export default {
     return {
       fields: [
         {
+          key: "date",
+          label: "时间"
+        },
+        {
           key: "code",
           label: "代码"
         },
@@ -58,9 +62,9 @@ export default {
         }
       ],
       items: [
-        { code: "005688", strategy: "基础策略", result: "无" },
-        { code: "300234", strategy: "基础策略", result: "无" },
-        { code: "600879", strategy: "基础策略", result: "无" }
+        { date: "2019-10-01", code: "005688", strategy: "基础策略", result: "无" },
+        { date: "2019-10-02", code: "300234", strategy: "基础策略", result: "无" },
+        { date: "2019-10-03", code: "600879", strategy: "基础策略", result: "无" }
       ]
     };
   },
