@@ -16,6 +16,7 @@
           <b-nav-item
             href="javascript:void(0)"
             v-on:click="goHistory"
+            v-if="isMock != null"
           >历史</b-nav-item>
           <b-nav-item-dropdown right>
             <!-- Using 'button-content' slot -->
@@ -25,8 +26,9 @@
             <b-dropdown-item
               href="javascript:void(0)"
               v-on:click="goConfig"
+              v-if="isMock != null"
             >账户</b-dropdown-item>
-            <b-dropdown-item href="javascript:void(0)">实盘</b-dropdown-item>
+            <b-dropdown-item href="javascript:void(0)" v-if="isMock == true">实盘</b-dropdown-item>
             <b-dropdown-item href="/">退出</b-dropdown-item>
           </b-nav-item-dropdown>
         </b-navbar-nav>
@@ -50,7 +52,7 @@
     <main>
       <router-view
         @login="updateLogin"
-        @mockFlag="updateMockFlag"
+        @isMock="updateIsMock"
         @tips="showTips"
       ></router-view>
     </main>
@@ -63,7 +65,7 @@ export default {
   data() {
     return {
       isLogined: false,
-      mock: null,
+      isMock: null,
       tip: {
         variant: "success",
         message: "",
@@ -74,12 +76,12 @@ export default {
   },
   methods: {
     goHome(evt) {
-      if(this.isLogined && this.mockFlag == true){
+      if(this.isLogined && this.isMock == true){
         this.$router.push({ path: "/homem" });
       }
     },
-    updateMockFlag(mockFlag){
-      this.mockFlag = mockFlag; 
+    updateIsMock(isMock){
+      this.isMock = isMock; 
     },
     goHistory(evt) {
       evt.preventDefault();

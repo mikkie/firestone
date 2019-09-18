@@ -52,7 +52,7 @@ export default {
   },
   methods: {
     start() {
-      this.$emit("mockFlag", true);
+      this.$emit("isMock", true);
       this.$router.push({ path:'/configm' })
     }
   }
