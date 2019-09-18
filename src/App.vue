@@ -5,7 +5,7 @@
       type="dark"
       variant="dark"
     >
-      <b-navbar-brand href="#">Firestone</b-navbar-brand>
+      <b-navbar-brand href="javascript:void(0)" v-on:click="goHome">Firestone</b-navbar-brand>
       <b-collapse
         id="nav-collapse"
         is-nav
@@ -50,6 +50,7 @@
     <main>
       <router-view
         @login="updateLogin"
+        @mockFlag="updateMockFlag"
         @tips="showTips"
       ></router-view>
     </main>
@@ -62,6 +63,7 @@ export default {
   data() {
     return {
       isLogined: false,
+      mock: null,
       tip: {
         variant: "success",
         message: "",
@@ -71,6 +73,14 @@ export default {
     };
   },
   methods: {
+    goHome(evt) {
+      if(this.isLogined && this.mockFlag == true){
+        this.$router.push({ path: "/homem" });
+      }
+    },
+    updateMockFlag(mockFlag){
+      this.mockFlag = mockFlag; 
+    },
     goHistory(evt) {
       evt.preventDefault();
       this.$router.push({ path: "/historym" });

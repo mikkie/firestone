@@ -16,7 +16,7 @@
             <div>
               <b-button
                 variant="primary"
-                v-on:click="start"
+                v-on:click="start()"
               >进入</b-button>
             </div>
           </b-card>
@@ -51,7 +51,8 @@ export default {
     this.$emit("login", true);
   },
   methods: {
-    start(evt) {
+    start() {
+      this.$emit("mockFlag", true);
       this.$router.push({ path:'/configm' })
     }
   }
