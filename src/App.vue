@@ -28,7 +28,7 @@
               v-on:click="goConfig"
               v-if="isMock != null"
             >账户</b-dropdown-item>
-            <b-dropdown-item href="javascript:void(0)" v-if="isMock == true">实盘</b-dropdown-item>
+            <b-dropdown-item href="javascript:void(0)" v-if="isMock == true" v-on:click="showTips('danger','暂未开放')">实盘</b-dropdown-item>
             <b-dropdown-item href="/">退出</b-dropdown-item>
           </b-nav-item-dropdown>
         </b-navbar-nav>

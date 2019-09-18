@@ -16,7 +16,7 @@
             <div>
               <b-button
                 variant="primary"
-                v-on:click="start()"
+                v-on:click="startMock()"
               >进入</b-button>
             </div>
           </b-card>
@@ -35,6 +35,7 @@
             <div>
               <b-button
                 variant="danger"
+                v-on:click="startReal()"
               >进入</b-button>
             </div>
           </b-card>
@@ -51,9 +52,12 @@ export default {
     this.$emit("login", true);
   },
   methods: {
-    start() {
+    startMock() {
       this.$emit("isMock", true);
       this.$router.push({ path:'/configm' })
+    },
+    startReal(){
+      this.$emit("tips", "danger", "暂未开放");
     }
   }
 };
