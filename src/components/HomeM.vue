@@ -151,6 +151,7 @@ export default {
   },
   created: function() {
     this.$emit("login", true);
+    this.$emit("isMock", true);
   },
   methods: {
     goBasic(evt) {

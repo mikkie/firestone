@@ -53,7 +53,6 @@ export default {
   },
   methods: {
     startMock() {
-      this.$emit("isMock", true);
       this.$router.push({ path:'/configm' })
     },
     startReal(){
