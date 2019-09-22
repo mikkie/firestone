@@ -14,6 +14,7 @@
         <!-- Right aligned nav items -->
         <b-navbar-nav class="ml-auto">
           <b-nav-item
+            id="history"
             href="javascript:void(0)"
             v-on:click="goHistory"
             v-if="isMock != null"
@@ -24,12 +25,13 @@
               <em>用户</em>
             </template>
             <b-dropdown-item
+              id="account"
               href="javascript:void(0)"
               v-on:click="goConfig"
               v-if="isMock != null"
             >账户</b-dropdown-item>
-            <b-dropdown-item href="javascript:void(0)" v-if="isMock == true" v-on:click="showTips('danger','暂未开放')">实盘</b-dropdown-item>
-            <b-dropdown-item href="/">退出</b-dropdown-item>
+            <b-dropdown-item id="mockRealSwitch" href="javascript:void(0)" v-if="isMock == true" v-on:click="showTips('danger','暂未开放')">实盘</b-dropdown-item>
+            <b-dropdown-item id="exit" href="/">退出</b-dropdown-item>
           </b-nav-item-dropdown>
         </b-navbar-nav>
       </b-collapse>

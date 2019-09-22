@@ -6,6 +6,7 @@
         <b-form-row class="justify-content-md-center">
           <b-col lg="3">
             <b-form-input
+              id="username"
               placeholder="用户名"
               type="text"
               required
@@ -15,6 +16,7 @@
         <b-form-row class="justify-content-md-center">
           <b-col lg="3">
             <b-form-input
+              id="password"
               placeholder="密码"
               type="password"
               required
@@ -24,6 +26,7 @@
         <b-form-row class="justify-content-md-center">
           <b-col>
             <b-button
+              id="login"
               type="submit"
               variant="primary"
             >登录</b-button>
@@ -43,6 +46,9 @@ export default {
     };
   },
   methods: {
+    created: function () {
+      this.$emit("login", false);
+    },
     onSubmit(evt) {
       evt.preventDefault()
       this.$router.push({ path:'/menu' })
