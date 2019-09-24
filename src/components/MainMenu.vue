@@ -15,6 +15,7 @@
             <div class="desc">同花顺模拟账号进行交易.</div>
             <div>
               <b-button
+                id="mock_btn"
                 variant="primary"
                 v-on:click="startMock()"
               >进入</b-button>

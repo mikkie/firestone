@@ -17,7 +17,7 @@
         </b-col>
         <b-col lg="2" class="input">
           <b-input-group size="sm" append="只">
-            <b-form-input required></b-form-input>
+            <b-form-input id="buy_count" required></b-form-input>
           </b-input-group>
         </b-col> 
       </b-row>
@@ -37,8 +37,9 @@ export default {
       return {
       };
     },
-    created: function () {
+    created: function() {
       this.$emit("login", true);
+      this.$emit("isMock", true);
     },
     methods: {
       onSubmit(evt) {

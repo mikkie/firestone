@@ -9,21 +9,25 @@
         >
           <b-form-checkbox class="mb-2 mr-sm-2 mb-sm-0" v-on:input="check_all($event)"></b-form-checkbox>
           <b-button
+            id="new_item"
             variant="success"
             size="md"
             v-b-modal.modal
           >新建</b-button>
           <b-button
+            id="del_item"
             variant="danger"
             size="md"
             v-on:click="openDelConfirm"
           >删除</b-button>
           <b-button
+            id="boot_item"
             variant="warning"
             size="md"
             v-on:click="bootItem"
           >启动</b-button>
           <b-button
+            id="stop_item"
             variant="info"
             size="md"
             v-on:click="stopItem"
@@ -76,6 +80,7 @@
       </template>
     </b-modal>
     <b-modal
+      id="del_item_modal"
       ref="modal1"
       title="删除策略"
       @ok="deleteItem"
@@ -148,10 +153,6 @@ export default {
         { value: "advanced", text: "打板策略" }
       ]
     };
-  },
-  created: function() {
-    this.$emit("login", true);
-    this.$emit("isMock", true);
   },
   methods: {
     goBasic(evt) {

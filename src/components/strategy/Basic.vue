@@ -66,7 +66,7 @@
               </b-row>
               <b-row no-gutters>
                 <b-col lg="12">
-                   <b-button v-on:click="save"  variant="primary">保存</b-button>
+                   <b-button v-on:click="save"  variant="primary" id="save_strategy">保存</b-button>
                 </b-col>
               </b-row>
            </b-col> 
