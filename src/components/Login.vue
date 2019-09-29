@@ -10,6 +10,7 @@
               placeholder="用户名"
               type="text"
               required
+              v-model.trim="user.username"
             ></b-form-input>
           </b-col>
         </b-form-row>
@@ -20,6 +21,7 @@
               placeholder="密码"
               type="password"
               required
+              v-model.trim="user.password"
             ></b-form-input>
           </b-col>
         </b-form-row>
@@ -38,20 +40,32 @@
 </template>
 
 <script>
+import api from "@/api";
 export default {
   name: "login",
   data() {
     return {
-      msg: "Firestone"
+      msg: "Firestone",
+      user: {
+        username: "",
+        password: ""
+      }
     };
   },
   methods: {
-    created: function () {
+    created: function() {
       this.$emit("login", false);
     },
     onSubmit(evt) {
-      evt.preventDefault()
-      this.$router.push({ path:'/menu' })
+      evt.preventDefault();
+      api.post("/users/login", this.user).then((res) => {
+        if (res.username) {
+          this.$router.push({ path: "/menu" });
+        }
+        else {
+          this.$emit("tips","danger","用户名或密码错误");
+        }
+      });
     }
   }
 };
