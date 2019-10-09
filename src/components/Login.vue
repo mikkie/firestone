@@ -58,12 +58,14 @@ export default {
     },
     onSubmit(evt) {
       evt.preventDefault();
+      var that = this; 
       api.post("/users/login", this.user).then((res) => {
-        if (res.username) {
-          this.$router.push({ path: "/menu" });
+        if (res.access_token) {
+          that.$cookies.set("accesstoken", res.access_token)
+          that.$router.push({ path: "/menu" });
         }
         else {
-          this.$emit("tips","danger","用户名或密码错误");
+          that.$emit("tips","danger","用户名或密码错误");
         }
       });
     }

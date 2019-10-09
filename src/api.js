@@ -6,17 +6,18 @@ const client = axios.create({
 })
 
 export default {
-  async execute (method, url, data) {
+  async execute (method, url, data, headers) {
     return client({
       method,
       url: url,
-      data
+      data,
+      headers
     }).then(req => {
       return req.data
     })
   },
-  get (url) {
-    return this.execute('get', url)
+  get (url, headers) {
+    return this.execute('get', url, null, headers)
   },
   post (url, data) {
     return this.execute('post', url, data)

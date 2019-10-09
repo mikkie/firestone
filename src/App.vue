@@ -31,7 +31,7 @@
               v-if="isMock != null"
             >账户</b-dropdown-item>
             <b-dropdown-item id="mockRealSwitch" href="javascript:void(0)" v-if="isMock == true" v-on:click="showTips('danger','暂未开放')">实盘</b-dropdown-item>
-            <b-dropdown-item id="exit" href="/">退出</b-dropdown-item>
+            <b-dropdown-item id="exit" href="/" v-on:click="logout">退出</b-dropdown-item>
           </b-nav-item-dropdown>
         </b-navbar-nav>
       </b-collapse>
@@ -103,6 +103,9 @@ export default {
     },
     countDownChanged(dismissCountDown) {
       this.tip.dismissCountDown = dismissCountDown;
+    },
+    logout() {
+      this.$cookies.remove("accesstoken");
     }
   }
 };
