@@ -7,7 +7,10 @@
           inline
           class="toobar"
         >
-          <b-form-checkbox class="mb-2 mr-sm-2 mb-sm-0" v-on:input="check_all($event)"></b-form-checkbox>
+          <b-form-checkbox
+            class="mb-2 mr-sm-2 mb-sm-0"
+            v-on:input="check_all($event)"
+          ></b-form-checkbox>
           <b-button
             id="new_item"
             variant="success"
@@ -96,6 +99,7 @@
   </div>
 </template>
 <script>
+import api from "@/api";
 export default {
   name: "home_m",
   data() {
@@ -122,29 +126,7 @@ export default {
           label: "交易结果"
         }
       ],
-      items: [
-        {
-          checked: false,
-          code: "005688",
-          strategy: "基础策略",
-          state: "停止",
-          result: "无"
-        },
-        {
-          checked: false,
-          code: "300234",
-          strategy: "基础策略",
-          state: "停止",
-          result: "无"
-        },
-        {
-          checked: false,
-          code: "600879",
-          strategy: "基础策略",
-          state: "停止",
-          result: "无"
-        }
-      ],
+      items: [],
       selected_bs: "buy",
       options_bs: [{ value: "buy", text: "买" }, { value: "sell", text: "卖" }],
       selected_startegy: "basic",
@@ -154,12 +136,24 @@ export default {
       ]
     };
   },
+  created: function() {
+    this.$emit("login", true);
+    this.$emit("isMock", true);
+    let that = this;
+    api.get(`/mocktrade/${this.$cookies.get("accesstoken")}`).then(res => {
+      for (let i in res) {
+        res[i]["checked"] = false;
+        res[i]["strategy"] = "基础策略";
+      }
+      that.$data.items = res;
+    });
+  },
   methods: {
     goBasic(evt) {
       evt.preventDefault();
       this.$router.push({ path: "/strategy/basic" });
     },
-    check_all(evt){
+    check_all(evt) {
       for (let i in this.items) {
         this.items[i].checked = evt;
       }
@@ -176,15 +170,25 @@ export default {
       this.$emit("tips", "danger", "请勾选要操作的行");
       return false;
     },
-    openDelConfirm(evt){
+    openDelConfirm(evt) {
       if (this.check_selected()) {
-        this.$refs['modal1'].show()
-      }  
+        this.$refs["modal1"].show();
+      }
     },
     deleteItem(evt) {
       for (let i = this.items.length - 1; i >= 0; i--) {
         if (this.items[i].checked == true) {
-          this.items.splice(i, 1);
+          api.post('/mocktrade',{
+            accesstoken : this.$cookies.get("accesstoken"),
+            mocktradeid : this.items[i]._id,
+            update : {
+              deleted : true
+            }
+          }).then(r => {
+              if(r.deleted == true){
+                this.items.splice(i, 1);
+              }
+          });
         }
       }
     },
@@ -192,7 +196,17 @@ export default {
       if (this.check_selected()) {
         for (let i in this.items) {
           if (this.items[i].checked == true) {
-            this.items[i].state = '运行中';
+            api.post('/mocktrade',{
+              accesstoken : this.$cookies.get("accesstoken"),
+              mocktradeid : this.items[i]._id,
+              update : {
+                state : '运行中'
+              }
+            }).then(r => {
+              if(r.state == '运行中'){
+                this.items[i].state = r.state;
+              }
+            });
           }
         }
       }
@@ -201,7 +215,17 @@ export default {
       if (this.check_selected()) {
         for (let i in this.items) {
           if (this.items[i].checked == true) {
-            this.items[i].state = '停止';
+            api.post('/mocktrade',{
+              accesstoken : this.$cookies.get("accesstoken"),
+              mocktradeid : this.items[i]._id,
+              update : {
+                state : '停止'
+              }
+            }).then(r => {
+              if(r.state == '停止'){
+                this.items[i].state = r.state;
+              }
+            });
           }
         }
       }

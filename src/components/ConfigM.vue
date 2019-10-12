@@ -8,7 +8,7 @@
           <label for="available_amount">账户信息:</label>
         </b-col>
         <b-col lg="6" class="input">
-          <b-link href="#foo">查看</b-link>
+          <b-link :href="config.ths_url" target="_blank">查看</b-link>
         </b-col>
       </b-row>
       <b-row>  
@@ -17,7 +17,7 @@
         </b-col>
         <b-col lg="2" class="input">
           <b-input-group size="sm" append="只">
-            <b-form-input id="buy_count" required></b-form-input>
+            <b-form-input id="buy_count" required v-model="config.maxBuyNum"></b-form-input>
           </b-input-group>
         </b-col> 
       </b-row>
@@ -31,20 +31,40 @@
   </div>      
 </template>
 <script>
+import api from "@/api"
 export default {
     name: "config_m",
     data() {
       return {
+        config: {}
       };
     },
     created: function() {
       this.$emit("login", true);
       this.$emit("isMock", true);
+      this.get_config();
     },
     methods: {
       onSubmit(evt) {
-        evt.preventDefault()
-        this.$router.push({ path:'/homem' })
+        evt.preventDefault();
+        var that = this; 
+        api.post("/configmock", {
+          accesstoken : this.$cookies.get("accesstoken"), 
+          update : {
+            maxBuyNum : this.$data.config.maxBuyNum
+          }
+        }).then(r => {
+          if(r && r.maxBuyNum == that.$data.config.maxBuyNum){
+            that.$router.push({ path:'/homem' });
+          }
+        });
+      },
+      get_config() {
+        api.get("/configmock/" + this.$cookies.get("accesstoken")).then((res) => {
+          if (res) {
+            this.$data.config = res
+          }
+        })
       }
     }
 }

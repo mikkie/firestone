@@ -37,6 +37,7 @@ module.exports = {
     browser.expect.element('#mockRealSwitch').to.be.present
     browser.expect.element('#exit').to.be.present
     browser
+      .clearValue('input[id=buy_count]')
       .setValue('input[id=buy_count]', 3)
       .click('button[id=available_amount]')
   },

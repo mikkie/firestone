@@ -34,7 +34,7 @@ describe('HomeM.vue', () => {
         done();  
       });
     });
-    it('delete with one selected', done => {
+    /* it('delete with one selected', done => {
       vm.$data.items[2].checked = true;
       vm.deleteItem();
       Vue.nextTick(()=>{
@@ -42,9 +42,9 @@ describe('HomeM.vue', () => {
           .to.equal(3);
         done();   
       });
-    });
+    }); */
   });
-  it('boot item', done => {
+  /* it('boot item', done => {
     vm.$data.items[2].checked = true;
     vm.bootItem(); 
     Vue.nextTick(()=>{
@@ -61,7 +61,7 @@ describe('HomeM.vue', () => {
         .to.equal('停止');
       done();   
     });
-  });
+  }); */
   describe('check all items', () => {
     it('check all set', () => {
       vm.check_all(true);
