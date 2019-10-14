@@ -69,7 +69,7 @@ module.exports = {
       .click('#del_item')
       .pause(500)
       .click('#del_item_modal button.btn-primary')
-      .pause(500)  
+      .pause(500)
       .assert.elementCount('tbody tr', 2)
     //new item
     browser.execute("document.querySelector('tbody tr:nth-child(1) td:nth-child(1) input').click()");
@@ -78,12 +78,13 @@ module.exports = {
       .pause(500)
       .click('#modal button.btn-primary')
   },
-  'basic strategy tests': function (browser){
+  'basic strategy tests': function (browser) {
     browser
       .pause(2000)
       .assert.containsText('#desc .card-header div', '基础策略')
-    browser.click('#save_strategy').pause(2000)  
-    browser.click('#history') 
+    browser.setValue('input[id=code]', '300336').pause(1000)
+      .click('#save_strategy').pause(2000)
+      .click('#history')
   },
   'history tests': function (browser) {
     browser

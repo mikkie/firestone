@@ -129,11 +129,8 @@ export default {
       items: [],
       selected_bs: "buy",
       options_bs: [{ value: "buy", text: "买" }, { value: "sell", text: "卖" }],
-      selected_startegy: "basic",
-      options_startegy: [
-        { value: "basic", text: "基础策略" },
-        { value: "advanced", text: "打板策略" }
-      ]
+      selected_startegy: null,
+      options_startegy: []
     };
   },
   created: function() {
@@ -147,11 +144,27 @@ export default {
       }
       that.$data.items = res;
     });
+    api.get("/strategy").then(res => {
+      if (res instanceof Array) {
+        for (let i in res) {
+          (res[i]["value"] = res[i]._id), (res[i]["text"] = res[i].name);
+          if (i == 0) {
+            this.$data.selected_startegy = res[i]._id;
+          }
+        }
+        this.$data.options_startegy = res;
+      }
+    });
   },
   methods: {
-    goBasic(evt) {
-      evt.preventDefault();
-      this.$router.push({ path: "/strategy/basic" });
+    goBasic() {
+      let strategyId = this.$data.selected_startegy;
+      for (let i in this.$data.options_startegy) {
+        if (this.$data.options_startegy[i]._id == strategyId) {
+          this.$router.push({ name: this.$data.options_startegy[i].url, params: {strategyId : strategyId} });
+          return;
+        }
+      }
     },
     check_all(evt) {
       for (let i in this.items) {
@@ -178,17 +191,19 @@ export default {
     deleteItem(evt) {
       for (let i = this.items.length - 1; i >= 0; i--) {
         if (this.items[i].checked == true) {
-          api.post('/mocktrade',{
-            accesstoken : this.$cookies.get("accesstoken"),
-            mocktradeid : this.items[i]._id,
-            update : {
-              deleted : true
-            }
-          }).then(r => {
-              if(r.deleted == true){
+          api
+            .post("/mocktrade", {
+              accesstoken: this.$cookies.get("accesstoken"),
+              mocktradeid: this.items[i]._id,
+              update: {
+                deleted: true
+              }
+            })
+            .then(r => {
+              if (r.deleted == true) {
                 this.items.splice(i, 1);
               }
-          });
+            });
         }
       }
     },
@@ -196,17 +211,19 @@ export default {
       if (this.check_selected()) {
         for (let i in this.items) {
           if (this.items[i].checked == true) {
-            api.post('/mocktrade',{
-              accesstoken : this.$cookies.get("accesstoken"),
-              mocktradeid : this.items[i]._id,
-              update : {
-                state : '运行中'
-              }
-            }).then(r => {
-              if(r.state == '运行中'){
-                this.items[i].state = r.state;
-              }
-            });
+            api
+              .post("/mocktrade", {
+                accesstoken: this.$cookies.get("accesstoken"),
+                mocktradeid: this.items[i]._id,
+                update: {
+                  state: "运行中"
+                }
+              })
+              .then(r => {
+                if (r.state == "运行中") {
+                  this.items[i].state = r.state;
+                }
+              });
           }
         }
       }
@@ -215,17 +232,19 @@ export default {
       if (this.check_selected()) {
         for (let i in this.items) {
           if (this.items[i].checked == true) {
-            api.post('/mocktrade',{
-              accesstoken : this.$cookies.get("accesstoken"),
-              mocktradeid : this.items[i]._id,
-              update : {
-                state : '停止'
-              }
-            }).then(r => {
-              if(r.state == '停止'){
-                this.items[i].state = r.state;
-              }
-            });
+            api
+              .post("/mocktrade", {
+                accesstoken: this.$cookies.get("accesstoken"),
+                mocktradeid: this.items[i]._id,
+                update: {
+                  state: "停止"
+                }
+              })
+              .then(r => {
+                if (r.state == "停止") {
+                  this.items[i].state = r.state;
+                }
+              });
           }
         }
       }
