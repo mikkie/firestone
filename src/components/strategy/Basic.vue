@@ -10,6 +10,7 @@
             <b-col lg="4">
               <b-form-input
                 size="sm"
+                maxlength="6"
                 id="code"
                 v-model="strategy.parameters.code"
               ></b-form-input>
@@ -52,6 +53,10 @@
             <b-col lg="3">
               <b-form-input
                 size="sm"
+                type="number"
+                step="0.1"
+                min="-10.0"
+                max="10.0"
                 v-model="strategy.parameters.index_percent.low"
               ></b-form-input>
             </b-col>
@@ -61,6 +66,10 @@
             <b-col lg="3">
               <b-form-input
                 size="sm"
+                type="number"
+                step="0.1"
+                min="-10.0"
+                max="10.0"
                 v-model="strategy.parameters.index_percent.high"
               ></b-form-input>
             </b-col>
@@ -75,6 +84,10 @@
             <b-col lg="3">
               <b-form-input
                 size="sm"
+                type="number"
+                step="0.1"
+                min="-10.0"
+                max="10.0"
                 v-model="strategy.parameters.percent.low"
               ></b-form-input>
             </b-col>
@@ -84,6 +97,10 @@
             <b-col lg="3">
               <b-form-input
                 size="sm"
+                type="number"
+                step="0.1"
+                min="-10.0"
+                max="10.0"
                 v-model="strategy.parameters.percent.high"
               ></b-form-input>
             </b-col>
