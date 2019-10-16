@@ -7,7 +7,16 @@
             <b-col lg="4">
               <label for="code">股票代码:</label>
             </b-col>
-            <b-col lg="4">
+            <b-col lg="4" v-if="this.$cookies && this.$cookies.get('basic_params').mockTrade != null">
+              <b-form-input
+                size="sm"
+                maxlength="6"
+                id="code"
+                plaintext
+                v-model="strategy.parameters.code"
+              ></b-form-input>
+            </b-col>
+            <b-col lg="4" v-else>
               <b-form-input
                 size="sm"
                 maxlength="6"
@@ -148,31 +157,52 @@ export default {
   },
   created: function() {
     this.$emit("login", true);
-    let strategyId = this.$route.params.strategyId;
-    if (!strategyId) {
-      strategyId = this.$cookies.get("create_strategy_id");
+    let basic_params = this.$route.params;
+    if (!basic_params) {
+      basic_params = this.$cookies.get("basic_params");
     }
-    this.$cookies.set("create_strategy_id", strategyId);
-    api.get(`/strategy/${strategyId}`).then(res => {
+    this.$cookies.set("basic_params", basic_params);
+    api.get(`/strategy/${basic_params.strategyId}`).then(res => {
       if (res) {
         this.$data.strategy = res;
+        if(basic_params.mockTrade){
+          this.$data.strategy.parameters = basic_params.mockTrade.params;
+        }
       }
     });
   },
   methods: {
     save(evt) {
       let that = this;  
-      api
-        .post("/mocktrade/new", {
+      let mockTrade = this.$cookies.get("basic_params").mockTrade;
+      /*create a new mockTrade*/
+      if(mockTrade == null){
+        api
+          .post("/mocktrade/new", {
+            accesstoken: this.$cookies.get("accesstoken"),
+            strategyId: this.$cookies.get("basic_params").strategyId,
+            params: this.$data.strategy.parameters
+          })
+          .then(r => {
+            if (r.code == that.$data.strategy.parameters.code) {
+              this.$router.push({ path: "/homem" });
+            }
+          });
+      }
+      /*update a mockTrade*/
+      else{
+        api.post("/mocktrade", {
           accesstoken: this.$cookies.get("accesstoken"),
-          strategyId: this.$cookies.get("create_strategy_id"),
-          params: this.$data.strategy.parameters
-        })
-        .then(r => {
-          if (r.code == that.$data.strategy.parameters.code) {
-            this.$router.push({ path: "/homem" });
+          mocktradeid: mockTrade._id,
+          update: {
+            params : this.$data.strategy.parameters
           }
+        }).then(r => {
+            if (r.code == that.$data.strategy.parameters.code) {
+              this.$router.push({ path: "/homem" });
+            }
         });
+      }
     }
   }
 };

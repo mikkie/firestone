@@ -84,7 +84,10 @@ module.exports = {
       .assert.containsText('#desc .card-header div', '基础策略')
     browser.setValue('input[id=code]', '300336').pause(1000)
       .click('#save_strategy').pause(2000)
-      .click('#history')
+      .assert.containsText('tbody tr:nth-child(3) td:nth-child(2)', '300336')
+    browser.click('tbody tr:nth-child(3) td:nth-child(3) a').pause(1000)
+      .assert.value('div input:nth-child(1)','300336')
+    browser.click('#history')
   },
   'history tests': function (browser) {
     browser

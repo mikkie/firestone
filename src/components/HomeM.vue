@@ -43,6 +43,7 @@
           hover
           :fields="fields"
           :items="items"
+          @row-hovered="setCurrentRow"
         >
           <template v-slot:cell(checked)="data">
             <b-form-checkbox
@@ -54,8 +55,11 @@
           <template v-slot:cell(strategy)="data">
             <b-link
               href="javascript:void(0)"
-              v-on:click="goBasic"
+              v-on:click="goBasic(false)"
             >{{ data.value }}</b-link>
+          </template>
+          <template v-slot:cell(state)="data">
+            <span style="font-weight:bold">{{ data.value }}</span>
           </template>
         </b-table>
       </div>
@@ -63,7 +67,7 @@
     <b-modal
       id="modal"
       title="选择策略"
-      @ok="goBasic"
+      @ok="goBasic(true)"
     >
       <b-form inline>
         <b-form-select
@@ -126,6 +130,7 @@ export default {
           label: "交易结果"
         }
       ],
+      item: null,
       items: [],
       selected_bs: "buy",
       options_bs: [{ value: "buy", text: "买" }, { value: "sell", text: "卖" }],
@@ -140,7 +145,7 @@ export default {
     api.get(`/mocktrade/${this.$cookies.get("accesstoken")}`).then(res => {
       for (let i in res) {
         res[i]["checked"] = false;
-        res[i]["strategy"] = "基础策略";
+        res[i]["strategy"] = res[i].strategyId.name;
       }
       that.$data.items = res;
     });
@@ -157,11 +162,26 @@ export default {
     });
   },
   methods: {
-    goBasic() {
+    setCurrentRow(item, index, event) {
+      this.$data.item = item;
+    },
+    goBasic(is_new) {
       let strategyId = this.$data.selected_startegy;
+      if (!is_new) {
+        strategyId = this.$data.item.strategyId._id;
+      }
       for (let i in this.$data.options_startegy) {
         if (this.$data.options_startegy[i]._id == strategyId) {
-          this.$router.push({ name: this.$data.options_startegy[i].url, params: {strategyId : strategyId} });
+          let params = { 
+              strategyId: strategyId
+          }
+          if (!is_new) {
+            params.mockTrade = this.$data.item;
+          }
+          this.$router.push({
+            name: this.$data.options_startegy[i].url,
+            params: params
+          });
           return;
         }
       }
@@ -191,6 +211,7 @@ export default {
     deleteItem(evt) {
       for (let i = this.items.length - 1; i >= 0; i--) {
         if (this.items[i].checked == true) {
+          let that = this;
           api
             .post("/mocktrade", {
               accesstoken: this.$cookies.get("accesstoken"),
@@ -201,7 +222,7 @@ export default {
             })
             .then(r => {
               if (r.deleted == true) {
-                this.items.splice(i, 1);
+                that.items.splice(i, 1);
               }
             });
         }
@@ -211,6 +232,7 @@ export default {
       if (this.check_selected()) {
         for (let i in this.items) {
           if (this.items[i].checked == true) {
+            let that = this;
             api
               .post("/mocktrade", {
                 accesstoken: this.$cookies.get("accesstoken"),
@@ -221,7 +243,7 @@ export default {
               })
               .then(r => {
                 if (r.state == "运行中") {
-                  this.items[i].state = r.state;
+                  that.items[i].state = r.state;
                 }
               });
           }
@@ -232,6 +254,7 @@ export default {
       if (this.check_selected()) {
         for (let i in this.items) {
           if (this.items[i].checked == true) {
+            let that = this;
             api
               .post("/mocktrade", {
                 accesstoken: this.$cookies.get("accesstoken"),
@@ -242,7 +265,7 @@ export default {
               })
               .then(r => {
                 if (r.state == "停止") {
-                  this.items[i].state = r.state;
+                  that.items[i].state = r.state;
                 }
               });
           }
