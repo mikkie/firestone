@@ -117,6 +117,13 @@
           <b-row no-gutters>
             <b-col lg="12">
               <b-button
+                v-if="this.$cookies && this.$cookies.get('basic_params').from == 'history'"
+                v-on:click="save"
+                variant="primary"
+                id="save_strategy"
+              >确定</b-button>
+              <b-button
+                v-else
                 v-on:click="save"
                 variant="primary"
                 id="save_strategy"
@@ -174,7 +181,12 @@ export default {
   methods: {
     save(evt) {
       let that = this;  
+      let from = this.$cookies.get("basic_params").from;
       let mockTrade = this.$cookies.get("basic_params").mockTrade;
+      if(from == 'history'){
+        this.$router.push({ path: "/historym" });
+        return;
+      }
       /*create a new mockTrade*/
       if(mockTrade == null){
         api

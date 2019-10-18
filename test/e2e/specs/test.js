@@ -82,6 +82,7 @@ module.exports = {
     browser
       .pause(2000)
       .assert.containsText('#desc .card-header div', '基础策略')
+      .assert.containsText('#desc .card-text', '在监控时间范围内,当大盘涨幅处于指定范围，并且当前个股涨幅处于指定范围，则买入股票')
     browser.setValue('input[id=code]', '300336').pause(1000)
       .click('#save_strategy').pause(2000)
       .assert.containsText('tbody tr:nth-child(3) td:nth-child(2)', '300336')
@@ -93,6 +94,12 @@ module.exports = {
     browser
       .pause(2000)
       .assert.containsText('h5', '模拟交易记录')
+    browser
+      .setValue('div input:nth-child(1)','300692')
+      // .execute("document.querySelector('input[type=\"date\"]').value = '2019-09-15'").pause(1000)
+      .click('form .btn').pause(1500)
+      .assert.elementCount('tbody tr', 1)
+      .assert.containsText('tbody tr:nth-child(1) td:nth-child(2)', '300692')
       .end()
   }
 }
