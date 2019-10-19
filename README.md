@@ -1,6 +1,6 @@
 # firestone
 
-> stock quantative trade platformQuantitative tradingplatform
+> stock quantative trade platform
 
 ## Build Setup
 
