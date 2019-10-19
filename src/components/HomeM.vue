@@ -55,7 +55,7 @@
           <template v-slot:cell(strategy)="data">
             <b-link
               href="javascript:void(0)"
-              v-on:click="goBasic(false)"
+              v-on:click="goToStrategy(false)"
             >{{ data.value }}</b-link>
           </template>
           <template v-slot:cell(state)="data">
@@ -67,7 +67,7 @@
     <b-modal
       id="modal"
       title="选择策略"
-      @ok="goBasic(true)"
+      @ok="goToStrategy(true)"
     >
       <b-form inline>
         <b-form-select
@@ -179,7 +179,7 @@ export default {
     setCurrentRow(item, index, event) {
       this.$data.item = item;
     },
-    goBasic(is_new) {
+    goToStrategy(is_new) {
       let strategyId = this.$data.selected_startegy;
       if (!is_new) {
         strategyId = this.$data.item.strategyId._id;
@@ -192,8 +192,13 @@ export default {
           if (!is_new) {
             params.mockTrade = this.$data.item;
           }
+          let urlName = this.$data.options_startegy[i].url;
+          if(urlName == null || urlName.length == 0){
+            this.$emit("tips", "danger", "该策略暂未开放");
+            return;
+          }
           this.$router.push({
-            name: this.$data.options_startegy[i].url,
+            name: urlName,
             params: params
           });
           return;

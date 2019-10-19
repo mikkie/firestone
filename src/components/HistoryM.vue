@@ -35,7 +35,7 @@
           <template v-slot:cell(strategy)="data">
             <b-link
               href="javascript:void(0)"
-              v-on:click="goBasic"
+              v-on:click="goToStrategy"
             >{{ data.value }}</b-link>
           </template>
         </b-table>
@@ -84,7 +84,7 @@ export default {
     setCurrentRow(item, index, event) {
       this.$data.item = item;
     },
-    goBasic(evt) {
+    goToStrategy(evt) {
       evt.preventDefault();
       let strategyId = this.$data.item.strategyId._id;
       for (let i in this.$data.options_startegy) {
