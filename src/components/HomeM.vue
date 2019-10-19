@@ -76,7 +76,7 @@
         ></b-form-select>
         <b-form-select
           v-model="selected_startegy"
-          :options="options_startegy"
+          :options="related_strategies"
         ></b-form-select>
       </b-form>
       <template v-slot:modal-ok="ok">
@@ -135,6 +135,7 @@ export default {
       selected_bs: "buy",
       options_bs: [{ value: "buy", text: "买" }, { value: "sell", text: "卖" }],
       selected_startegy: null,
+      related_strategies: [],
       options_startegy: []
     };
   },
@@ -153,13 +154,26 @@ export default {
       if (res instanceof Array) {
         for (let i in res) {
           (res[i]["value"] = res[i]._id), (res[i]["text"] = res[i].name);
-          if (i == 0) {
-            this.$data.selected_startegy = res[i]._id;
+          if (res[i]["op"] == 'buy') {
+            this.$data.related_strategies.push(res[i])
           }
         }
         this.$data.options_startegy = res;
+        this.$data.selected_startegy = this.$data.related_strategies[0]._id;
       }
     });
+  },
+  watch: {
+    selected_bs : function(newOp, oldOp) {
+      let startegies = [];
+      for(let i in this.$data.options_startegy){
+        if(this.$data.options_startegy[i].op == newOp){
+          startegies.push(this.$data.options_startegy[i]);
+        }
+      }
+      this.$data.related_strategies = startegies;
+      this.$data.selected_startegy = startegies[0]._id;
+    }
   },
   methods: {
     setCurrentRow(item, index, event) {
