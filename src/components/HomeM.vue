@@ -286,7 +286,7 @@ export default {
         let popupTip = false;
         for (let i in this.items) {
           if (this.items[i].checked == true) {
-            if(['已提交','已完成'].indexOf(this.items[i].state) < 0){
+            if(['未开始','已提交','已完成'].indexOf(this.items[i].state) < 0){
               let that = this;
               api
                 .post("/mocktrade", {
@@ -303,7 +303,7 @@ export default {
                 });
             }
             else{
-              this.$emit("tips", "danger", "状态为[已提交],[已完成]不可以停止");
+              this.$emit("tips", "danger", "状态为[未开始],[已提交],[已完成]不可以停止");
             }
           }
         }
