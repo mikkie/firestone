@@ -35,6 +35,12 @@
             size="md"
             v-on:click="stopItem"
           >停止</b-button>
+          <b-button
+            id="cancel_item"
+            variant="secondary"
+            size="md"
+            v-on:click="cancelItem"
+          >撤销</b-button>
         </b-form>
       </div>
       <div>
@@ -249,45 +255,88 @@ export default {
     },
     bootItem(evt) {
       if (this.check_selected()) {
+        let popupTip = false;
         for (let i in this.items) {
           if (this.items[i].checked == true) {
-            let that = this;
-            api
-              .post("/mocktrade", {
-                accesstoken: this.$cookies.get("accesstoken"),
-                mocktradeid: this.items[i]._id,
-                update: {
-                  state: "运行中"
-                }
-              })
-              .then(r => {
-                if (r.state == "运行中") {
-                  that.items[i].state = r.state;
-                }
-              });
+            if(['已提交','撤销','已完成'].indexOf(this.items[i].state) < 0){
+              let that = this;
+              api
+                .post("/mocktrade", {
+                  accesstoken: this.$cookies.get("accesstoken"),
+                  mocktradeid: this.items[i]._id,
+                  update: {
+                    state: "运行中"
+                  }
+                })
+                .then(r => {
+                  if (r.state == "运行中") {
+                    that.items[i].state = r.state;
+                  }
+                });
+            }
+            else{
+              this.$emit("tips", "danger", "状态为[已提交],[撤销],[已完成]不可以启动");
+            }
           }
         }
       }
     },
     stopItem(evt) {
       if (this.check_selected()) {
+        let popupTip = false;
         for (let i in this.items) {
           if (this.items[i].checked == true) {
-            let that = this;
-            api
-              .post("/mocktrade", {
-                accesstoken: this.$cookies.get("accesstoken"),
-                mocktradeid: this.items[i]._id,
-                update: {
-                  state: "停止"
-                }
-              })
-              .then(r => {
-                if (r.state == "停止") {
-                  that.items[i].state = r.state;
-                }
-              });
+            if(['已提交','已完成'].indexOf(this.items[i].state) < 0){
+              let that = this;
+              api
+                .post("/mocktrade", {
+                  accesstoken: this.$cookies.get("accesstoken"),
+                  mocktradeid: this.items[i]._id,
+                  update: {
+                    state: "停止"
+                  }
+                })
+                .then(r => {
+                  if (r.state == "停止") {
+                    that.items[i].state = r.state;
+                  }
+                });
+            }
+            else{
+              this.$emit("tips", "danger", "状态为[已提交],[已完成]不可以停止");
+            }
           }
+        }
+      }
+    },
+    cancelItem(evt){
+      if (this.check_selected()) {
+        let popupTip = false;
+        for (let i in this.items) {
+          if (this.items[i].checked == true) {
+            if(this.items[i].state == '已提交'){
+              let that = this;
+              api
+                .post("/mocktrade", {
+                  accesstoken: this.$cookies.get("accesstoken"),
+                  mocktradeid: this.items[i]._id,
+                  update: {
+                    state: "撤销"
+                  }
+                })
+                .then(r => {
+                  if (r.state == "撤销") {
+                    that.items[i].state = r.state;
+                  }
+                });
+            }
+            else{
+              popupTip = true;
+            }
+          }
+        }
+        if(popupTip){
+          this.$emit("tips", "danger", "状态为以提交才可以撤销");
         }
       }
     }
