@@ -279,6 +279,27 @@ export default {
         }
       }
     },
+    startFireStoneRock(code, tradeId){
+      let codes = [code];
+      let that = this;
+      if(code.startsWith('3')){
+        codes.push('399006');
+      }
+      else{
+        codes.push('000001');
+      }
+      api
+        .post("/firestonerock", {
+          accesstoken: this.$cookies.get("accesstoken"),
+          codes: codes,
+          tradeId: tradeId
+        })
+        .then(r => {
+          if (r.error != null) {
+            that.$emit("tips", "danger", `[${code}]启动失败`);
+          }
+        });
+    },
     bootItem(evt) {
       if (this.check_selected()) {
         let popupTip = false;
@@ -296,7 +317,11 @@ export default {
                 })
                 .then(r => {
                   if (r.state == "运行中") {
+                    let oldState = that.items[i].state
                     that.items[i].state = r.state;
+                    if(oldState == '未开始'){
+                      that.startFireStoneRock(this.items[i].params['code'] ,this.items[i]._id)
+                    }
                   }
                 });
             }
