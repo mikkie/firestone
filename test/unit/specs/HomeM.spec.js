@@ -8,10 +8,10 @@ describe('HomeM.vue', () => {
     vm = new Constructor({
         data : {
             items : [
-              {checked: false, code: '005688', strategy: '基础策略', state: '停止', result: '无' },
-              {checked: false, code: '300234', strategy: '基础策略', state: '停止', result: '无' },
-              {checked: false, code: '600879', strategy: '基础策略', state: '停止', result: '无' },
-              {checked: false, code: '600889', strategy: '基础策略', state: '停止', result: '无' }
+              {checked: false, code: '005688', strategy: '基础策略', state: '未开始', result: '无' },
+              {checked: false, code: '300234', strategy: '基础策略', state: '未开始', result: '无' },
+              {checked: false, code: '600879', strategy: '基础策略', state: '未开始', result: '无' },
+              {checked: false, code: '600889', strategy: '基础策略', state: '未开始', result: '无' }
             ]
         }
     }).$mount()
@@ -53,12 +53,12 @@ describe('HomeM.vue', () => {
       done();  
     });
   });
-  it('stop item', done => {
+  it('pause item', done => {
     vm.$data.items[2].checked = true;
-    vm.stopItem(); 
+    vm.pauseItem(); 
     Vue.nextTick(()=>{
       expect(vm.$el.querySelector('tbody tr:nth-child(3) td:nth-child(4)').textContent)
-        .to.equal('停止');
+        .to.equal('暂停');
       done();   
     });
   }); */
