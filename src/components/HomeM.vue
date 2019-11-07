@@ -47,6 +47,12 @@
             size="md"
             v-on:click="openDelConfirm('modal2')"
           >停止</b-button>
+          <b-button
+            id="refresh_item"
+            variant="primary"
+            size="md"
+            v-on:click="refreshItem"
+          >刷新</b-button>
         </b-form>
       </div>
       <div>
@@ -130,6 +136,7 @@
 </template>
 <script>
 import api from "@/api";
+import { setInterval } from 'timers';
 export default {
   name: "home_m",
   data() {
@@ -168,20 +175,14 @@ export default {
   created: function() {
     this.$emit("login", true);
     this.$emit("isMock", true);
-    let that = this;
-    api.get(`/mocktrade/${this.$cookies.get("accesstoken")}`).then(res => {
-      for (let i in res) {
-        res[i]["checked"] = false;
-        res[i]["strategy"] = res[i].strategyId.name;
-      }
-      that.$data.items = res;
-    });
+    this.findMockTrades();
+    setInterval(this.findMockTrades,10000);
     api.get("/strategy").then(res => {
       if (res instanceof Array) {
         for (let i in res) {
           (res[i]["value"] = res[i]._id), (res[i]["text"] = res[i].name);
-          if (res[i]["op"] == 'buy') {
-            this.$data.related_strategies.push(res[i])
+          if (res[i]["op"] == "buy") {
+            this.$data.related_strategies.push(res[i]);
           }
         }
         this.$data.options_startegy = res;
@@ -190,10 +191,10 @@ export default {
     });
   },
   watch: {
-    selected_bs : function(newOp, oldOp) {
+    selected_bs: function(newOp, oldOp) {
       let startegies = [];
-      for(let i in this.$data.options_startegy){
-        if(this.$data.options_startegy[i].op == newOp){
+      for (let i in this.$data.options_startegy) {
+        if (this.$data.options_startegy[i].op == newOp) {
           startegies.push(this.$data.options_startegy[i]);
         }
       }
@@ -202,6 +203,16 @@ export default {
     }
   },
   methods: {
+    findMockTrades() {
+      let that = this;
+      api.get(`/mocktrade/${this.$cookies.get("accesstoken")}`).then(res => {
+        for (let i in res) {
+          res[i]["checked"] = false;
+          res[i]["strategy"] = res[i].strategyId.name;
+        }
+        that.$data.items = res;
+      });
+    },
     setCurrentRow(item, index, event) {
       this.$data.item = item;
     },
@@ -212,14 +223,14 @@ export default {
       }
       for (let i in this.$data.options_startegy) {
         if (this.$data.options_startegy[i]._id == strategyId) {
-          let params = { 
-              strategyId: strategyId
-          }
+          let params = {
+            strategyId: strategyId
+          };
           if (!is_new) {
             params.mockTrade = this.$data.item;
           }
           let urlName = this.$data.options_startegy[i].url;
-          if(urlName == null || urlName.length == 0){
+          if (urlName == null || urlName.length == 0) {
             this.$emit("tips", "danger", "该策略暂未开放");
             return;
           }
@@ -257,7 +268,7 @@ export default {
       for (let i = this.items.length - 1; i >= 0; i--) {
         let popupTip = false;
         if (this.items[i].checked == true) {
-          if(this.items[i].state == '已完成'){
+          if (this.items[i].state == "已完成") {
             let that = this;
             api
               .post("/mocktrade", {
@@ -272,21 +283,22 @@ export default {
                   that.items.splice(i, 1);
                 }
               });
-          }
-          else{
+          } else {
             this.$emit("tips", "danger", "状态为[已完成]才可以删除");
           }
         }
       }
     },
-    startFireStoneRock(code, tradeId){
+    refreshItem(evt) {
+      this.findMockTrades()
+    },
+    startFireStoneRock(code, tradeId) {
       let codes = [code];
       let that = this;
-      if(code.startsWith('3')){
-        codes.push('399006');
-      }
-      else{
-        codes.push('000001');
+      if (code.startsWith("3")) {
+        codes.push("399006");
+      } else {
+        codes.push("000001");
       }
       api
         .post("/firestonerock", {
@@ -305,7 +317,7 @@ export default {
         let popupTip = false;
         for (let i in this.items) {
           if (this.items[i].checked == true) {
-            if(['已提交','撤销','已完成'].indexOf(this.items[i].state) < 0){
+            if (["已提交", "撤销", "已完成"].indexOf(this.items[i].state) < 0) {
               let that = this;
               api
                 .post("/mocktrade", {
@@ -317,16 +329,22 @@ export default {
                 })
                 .then(r => {
                   if (r.state == "运行中") {
-                    let oldState = that.items[i].state
+                    let oldState = that.items[i].state;
                     that.items[i].state = r.state;
-                    if(oldState == '未开始'){
-                      that.startFireStoneRock(this.items[i].params['code'] ,this.items[i]._id)
+                    if (oldState == "未开始") {
+                      that.startFireStoneRock(
+                        this.items[i].params["code"],
+                        this.items[i]._id
+                      );
                     }
                   }
                 });
-            }
-            else{
-              this.$emit("tips", "danger", "状态为[已提交],[撤销],[已完成]不可以启动");
+            } else {
+              this.$emit(
+                "tips",
+                "danger",
+                "状态为[已提交],[撤销],[已完成]不可以启动"
+              );
             }
           }
         }
@@ -337,7 +355,9 @@ export default {
         let popupTip = false;
         for (let i in this.items) {
           if (this.items[i].checked == true) {
-            if(['未开始','已提交','已完成'].indexOf(this.items[i].state) < 0){
+            if (
+              ["未开始", "已提交", "已完成"].indexOf(this.items[i].state) < 0
+            ) {
               let that = this;
               api
                 .post("/mocktrade", {
@@ -352,20 +372,23 @@ export default {
                     that.items[i].state = r.state;
                   }
                 });
-            }
-            else{
-              this.$emit("tips", "danger", "状态为[未开始],[已提交],[已完成]不可以暂停");
+            } else {
+              this.$emit(
+                "tips",
+                "danger",
+                "状态为[未开始],[已提交],[已完成]不可以暂停"
+              );
             }
           }
         }
       }
     },
-    cancelItem(evt){
+    cancelItem(evt) {
       if (this.check_selected()) {
         let popupTip = false;
         for (let i in this.items) {
           if (this.items[i].checked == true) {
-            if(this.items[i].state == '已提交'){
+            if (this.items[i].state == "已提交") {
               let that = this;
               api
                 .post("/mocktrade", {
@@ -380,23 +403,22 @@ export default {
                     that.items[i].state = r.state;
                   }
                 });
-            }
-            else{
+            } else {
               popupTip = true;
             }
           }
         }
-        if(popupTip){
+        if (popupTip) {
           this.$emit("tips", "danger", "状态为[已提交]才可以撤销");
         }
       }
     },
-    stopItem(evt){
+    stopItem(evt) {
       if (this.check_selected()) {
         let popupTip = false;
         for (let i in this.items) {
           if (this.items[i].checked == true) {
-            if(['未开始','已提交','撤销'].indexOf(this.items[i].state) < 0){
+            if (["未开始", "已提交", "撤销"].indexOf(this.items[i].state) < 0) {
               let that = this;
               api
                 .post("/mocktrade", {
@@ -411,14 +433,17 @@ export default {
                     that.items[i].state = r.state;
                   }
                 });
-            }
-            else{
+            } else {
               popupTip = true;
             }
           }
         }
-        if(popupTip){
-          this.$emit("tips", "danger", "状态为[未开始],[已提交],[撤销]不可以停止");
+        if (popupTip) {
+          this.$emit(
+            "tips",
+            "danger",
+            "状态为[未开始],[已提交],[撤销]不可以停止"
+          );
         }
       }
     }
