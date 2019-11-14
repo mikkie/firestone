@@ -21,7 +21,7 @@
             id="del_item"
             variant="danger"
             size="md"
-            v-on:click="openDelConfirm"
+            v-on:click="openDelConfirm('modal1')"
           >删除</b-button>
           <b-button
             id="boot_item"
@@ -30,11 +30,29 @@
             v-on:click="bootItem"
           >启动</b-button>
           <b-button
-            id="stop_item"
+            id="pause_item"
             variant="info"
             size="md"
-            v-on:click="stopItem"
+            v-on:click="pauseItem"
+          >暂停</b-button>
+          <b-button
+            id="cancel_item"
+            variant="secondary"
+            size="md"
+            v-on:click="cancelItem"
+          >撤销</b-button>
+          <b-button
+            id="stop_item"
+            variant="dark"
+            size="md"
+            v-on:click="openDelConfirm('modal2')"
           >停止</b-button>
+          <b-button
+            id="refresh_item"
+            variant="primary"
+            size="md"
+            v-on:click="refreshItem"
+          >刷新</b-button>
         </b-form>
       </div>
       <div>
@@ -100,10 +118,25 @@
         取消
       </template>
     </b-modal>
+    <b-modal
+      id="stop_item_modal"
+      ref="modal2"
+      title="停止策略"
+      @ok="stopItem"
+    >
+      <p>确定停止策略?</p>
+      <template v-slot:modal-ok="ok">
+        确定
+      </template>
+      <template v-slot:modal-cancel="cancel">
+        取消
+      </template>
+    </b-modal>
   </div>
 </template>
 <script>
 import api from "@/api";
+import { setInterval } from 'timers';
 export default {
   name: "home_m",
   data() {
@@ -142,20 +175,14 @@ export default {
   created: function() {
     this.$emit("login", true);
     this.$emit("isMock", true);
-    let that = this;
-    api.get(`/mocktrade/${this.$cookies.get("accesstoken")}`).then(res => {
-      for (let i in res) {
-        res[i]["checked"] = false;
-        res[i]["strategy"] = res[i].strategyId.name;
-      }
-      that.$data.items = res;
-    });
+    this.findMockTrades();
+    setInterval(this.findMockTrades,10000);
     api.get("/strategy").then(res => {
       if (res instanceof Array) {
         for (let i in res) {
           (res[i]["value"] = res[i]._id), (res[i]["text"] = res[i].name);
-          if (res[i]["op"] == 'buy') {
-            this.$data.related_strategies.push(res[i])
+          if (res[i]["op"] == "buy") {
+            this.$data.related_strategies.push(res[i]);
           }
         }
         this.$data.options_startegy = res;
@@ -164,10 +191,10 @@ export default {
     });
   },
   watch: {
-    selected_bs : function(newOp, oldOp) {
+    selected_bs: function(newOp, oldOp) {
       let startegies = [];
-      for(let i in this.$data.options_startegy){
-        if(this.$data.options_startegy[i].op == newOp){
+      for (let i in this.$data.options_startegy) {
+        if (this.$data.options_startegy[i].op == newOp) {
           startegies.push(this.$data.options_startegy[i]);
         }
       }
@@ -176,6 +203,16 @@ export default {
     }
   },
   methods: {
+    findMockTrades() {
+      let that = this;
+      api.get(`/mocktrade/${this.$cookies.get("accesstoken")}`).then(res => {
+        for (let i in res) {
+          res[i]["checked"] = false;
+          res[i]["strategy"] = res[i].strategyId.name;
+        }
+        that.$data.items = res;
+      });
+    },
     setCurrentRow(item, index, event) {
       this.$data.item = item;
     },
@@ -186,14 +223,14 @@ export default {
       }
       for (let i in this.$data.options_startegy) {
         if (this.$data.options_startegy[i]._id == strategyId) {
-          let params = { 
-              strategyId: strategyId
-          }
+          let params = {
+            strategyId: strategyId
+          };
           if (!is_new) {
             params.mockTrade = this.$data.item;
           }
           let urlName = this.$data.options_startegy[i].url;
-          if(urlName == null || urlName.length == 0){
+          if (urlName == null || urlName.length == 0) {
             this.$emit("tips", "danger", "该策略暂未开放");
             return;
           }
@@ -222,72 +259,191 @@ export default {
       this.$emit("tips", "danger", "请勾选要操作的行");
       return false;
     },
-    openDelConfirm(evt) {
+    openDelConfirm(model) {
       if (this.check_selected()) {
-        this.$refs["modal1"].show();
+        this.$refs[model].show();
       }
     },
     deleteItem(evt) {
       for (let i = this.items.length - 1; i >= 0; i--) {
+        let popupTip = false;
         if (this.items[i].checked == true) {
-          let that = this;
-          api
-            .post("/mocktrade", {
-              accesstoken: this.$cookies.get("accesstoken"),
-              mocktradeid: this.items[i]._id,
-              update: {
-                deleted: true
-              }
-            })
-            .then(r => {
-              if (r.deleted == true) {
-                that.items.splice(i, 1);
-              }
-            });
-        }
-      }
-    },
-    bootItem(evt) {
-      if (this.check_selected()) {
-        for (let i in this.items) {
-          if (this.items[i].checked == true) {
+          if (this.items[i].state == "已完成") {
             let that = this;
             api
               .post("/mocktrade", {
                 accesstoken: this.$cookies.get("accesstoken"),
                 mocktradeid: this.items[i]._id,
                 update: {
-                  state: "运行中"
+                  deleted: true
                 }
               })
               .then(r => {
-                if (r.state == "运行中") {
-                  that.items[i].state = r.state;
+                if (r.deleted == true) {
+                  that.items.splice(i, 1);
                 }
               });
+          } else {
+            this.$emit("tips", "danger", "状态为[已完成]才可以删除");
           }
+        }
+      }
+    },
+    refreshItem(evt) {
+      this.findMockTrades()
+    },
+    startFireStoneRock(code, tradeId) {
+      let codes = [code];
+      let that = this;
+      if (code.startsWith("3")) {
+        codes.push("399006");
+      } else {
+        codes.push("000001");
+      }
+      api
+        .post("/firestonerock", {
+          accesstoken: this.$cookies.get("accesstoken"),
+          codes: codes,
+          tradeId: tradeId
+        })
+        .then(r => {
+          if (r.error != null) {
+            that.$emit("tips", "danger", `[${code}]启动失败`);
+          }
+        });
+    },
+    bootItem(evt) {
+      if (this.check_selected()) {
+        let popupTip = false;
+        for (let i in this.items) {
+          if (this.items[i].checked == true) {
+            if (["已提交", "撤销", "已完成"].indexOf(this.items[i].state) < 0) {
+              let that = this;
+              api
+                .post("/mocktrade", {
+                  accesstoken: this.$cookies.get("accesstoken"),
+                  mocktradeid: this.items[i]._id,
+                  update: {
+                    state: "运行中"
+                  }
+                })
+                .then(r => {
+                  if (r.state == "运行中") {
+                    let oldState = that.items[i].state;
+                    that.items[i].state = r.state;
+                    if (oldState == "未开始") {
+                      that.startFireStoneRock(
+                        this.items[i].params["code"],
+                        this.items[i]._id
+                      );
+                    }
+                  }
+                });
+            } else {
+              this.$emit(
+                "tips",
+                "danger",
+                "状态为[已提交],[撤销],[已完成]不可以启动"
+              );
+            }
+          }
+        }
+      }
+    },
+    pauseItem(evt) {
+      if (this.check_selected()) {
+        let popupTip = false;
+        for (let i in this.items) {
+          if (this.items[i].checked == true) {
+            if (
+              ["未开始", "已提交", "已完成"].indexOf(this.items[i].state) < 0
+            ) {
+              let that = this;
+              api
+                .post("/mocktrade", {
+                  accesstoken: this.$cookies.get("accesstoken"),
+                  mocktradeid: this.items[i]._id,
+                  update: {
+                    state: "暂停"
+                  }
+                })
+                .then(r => {
+                  if (r.state == "暂停") {
+                    that.items[i].state = r.state;
+                  }
+                });
+            } else {
+              this.$emit(
+                "tips",
+                "danger",
+                "状态为[未开始],[已提交],[已完成]不可以暂停"
+              );
+            }
+          }
+        }
+      }
+    },
+    cancelItem(evt) {
+      if (this.check_selected()) {
+        let popupTip = false;
+        for (let i in this.items) {
+          if (this.items[i].checked == true) {
+            if (this.items[i].state == "已提交") {
+              let that = this;
+              api
+                .post("/mocktrade", {
+                  accesstoken: this.$cookies.get("accesstoken"),
+                  mocktradeid: this.items[i]._id,
+                  update: {
+                    state: "撤销"
+                  }
+                })
+                .then(r => {
+                  if (r.state == "撤销") {
+                    that.items[i].state = r.state;
+                  }
+                });
+            } else {
+              popupTip = true;
+            }
+          }
+        }
+        if (popupTip) {
+          this.$emit("tips", "danger", "状态为[已提交]才可以撤销");
         }
       }
     },
     stopItem(evt) {
       if (this.check_selected()) {
+        let popupTip = false;
         for (let i in this.items) {
           if (this.items[i].checked == true) {
-            let that = this;
-            api
-              .post("/mocktrade", {
-                accesstoken: this.$cookies.get("accesstoken"),
-                mocktradeid: this.items[i]._id,
-                update: {
-                  state: "停止"
-                }
-              })
-              .then(r => {
-                if (r.state == "停止") {
-                  that.items[i].state = r.state;
-                }
-              });
+            if (["未开始", "已提交", "撤销"].indexOf(this.items[i].state) < 0) {
+              let that = this;
+              api
+                .post("/mocktrade", {
+                  accesstoken: this.$cookies.get("accesstoken"),
+                  mocktradeid: this.items[i]._id,
+                  update: {
+                    state: "已完成"
+                  }
+                })
+                .then(r => {
+                  if (r.state == "已完成") {
+                    that.items[i].state = r.state;
+                  }
+                });
+            } else {
+              popupTip = true;
+            }
           }
+        }
+        if (popupTip) {
+          this.$emit(
+            "tips",
+            "danger",
+            "状态为[未开始],[已提交],[撤销]不可以停止"
+          );
         }
       }
     }

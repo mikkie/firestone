@@ -59,12 +59,14 @@ module.exports = {
       .click('#boot_item')
       .pause(500)
       .assert.containsText('tbody tr:nth-child(1) td:nth-child(4)', '运行中')
-    //stop item  
+    //pause item  
     browser
-      .click('#stop_item')
+      .click('#pause_item')
       .pause(500)
-      .assert.containsText('tbody tr:nth-child(1) td:nth-child(4)', '停止')
+      .assert.containsText('tbody tr:nth-child(1) td:nth-child(4)', '暂停')
     //del item  
+    browser.execute("document.querySelector('tbody tr:nth-child(1) td:nth-child(1) input').click()");
+    browser.execute("document.querySelector('tbody tr:nth-child(3) td:nth-child(1) input').click()");
     browser
       .click('#del_item')
       .pause(500)
