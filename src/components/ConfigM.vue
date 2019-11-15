@@ -48,6 +48,24 @@
             lg="6"
             class="label"
           >
+            <label for="username">用户名:</label>
+          </b-col>
+          <b-col
+            lg="2"
+            class="input"
+          >
+            <b-form-input
+              id="username"
+              required
+              v-model="config.username"
+            ></b-form-input>
+          </b-col>
+        </b-row>
+        <b-row>
+          <b-col
+            lg="6"
+            class="label"
+          >
             <label for="gdzh">账号:</label>
           </b-col>
           <b-col
@@ -138,7 +156,8 @@ export default {
             maxBuyNum: this.$data.config.maxBuyNum,
             cookie: this.$data.config.cookie,
             gdzh: this.$data.config.gdzh,
-            sh_gdzh: this.$data.config.sh_gdzh
+            sh_gdzh: this.$data.config.sh_gdzh,
+            username: this.$data.config.username
           }
         })
         .then(r => {
