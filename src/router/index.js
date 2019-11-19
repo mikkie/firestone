@@ -6,6 +6,7 @@ import ConfigM from '@/components/ConfigM'
 import HomeM from '@/components/HomeM'
 import HistoryM from '@/components/HistoryM'
 import Basic from '@/components/strategy/Basic'
+import Ydls from '@/components/strategy/Ydls'
 import api from '@/api'
 
 Vue.use(Router)
@@ -41,6 +42,11 @@ let router = new Router({
       path: '/strategy/basic',
       name: 'Basic',
       component: Basic
+    },
+    {
+      path: '/strategy/ydls',
+      name: 'Ydls',
+      component: Ydls
     }
   ]
 })
