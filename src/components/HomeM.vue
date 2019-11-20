@@ -93,6 +93,7 @@
           :options="options_bs"
         ></b-form-select>
         <b-form-select
+          id="select_strategy"
           v-model="selected_startegy"
           :options="related_strategies"
         ></b-form-select>

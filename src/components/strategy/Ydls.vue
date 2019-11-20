@@ -1,5 +1,5 @@
 <template>
-  <div class="basic_startegy">
+  <div class="ydls_startegy">
     <b-container>
       <b-row no-gutters>
         <b-col lg="6">
@@ -196,14 +196,15 @@
 <script>
 import api from "@/api";
 export default {
-  name: "basic_strategy",
+  name: "ydls_startegy",
   data() {
     return {
       strategy: {
           parameters : {
               monitorTime : {},
               index_percent : {},
-              percent : {}
+              percent : {},
+              speed : {}
           }
       }
     };
