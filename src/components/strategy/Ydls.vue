@@ -136,7 +136,7 @@
             <b-col lg="1">
               <label for="code">分钟:</label>
             </b-col>
-            <b-col lg="3">
+            <b-col lg="1">
               <b-form-input
                 size="sm"
                 type="number"
@@ -149,7 +149,7 @@
             <b-col lg="1">
               <label for="code">涨幅:</label>
             </b-col>
-            <b-col lg="3">
+            <b-col lg="1">
               <b-form-input
                 size="sm"
                 type="number"
@@ -157,6 +157,19 @@
                 min="-10.0"
                 max="10.0"
                 v-model="strategy.parameters.speed.percent"
+              ></b-form-input>
+            </b-col>
+            <b-col lg="2">
+              <label for="code">成交(万):</label>
+            </b-col>
+            <b-col lg="2">
+              <b-form-input
+                size="sm"
+                type="number"
+                step="1"
+                min="10"
+                max="50000"
+                v-model="strategy.parameters.speed.amount"
               ></b-form-input>
             </b-col>
           </b-row>
