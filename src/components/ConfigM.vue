@@ -2,7 +2,7 @@
   <div class="configm">
     <h5>模拟交易设置</h5>
     <b-container>
-      <b-form @submit="onSubmit">
+      <b-form @submit="validate">
         <b-row>
           <b-col
             lg="6"
@@ -146,9 +146,22 @@ export default {
     this.get_config();
   },
   methods: {
-    onSubmit(evt) {
+    validate(evt){
       evt.preventDefault();
-      var that = this;
+      let that = this;
+      api.post("/firestonerock/pingheartbeat", {
+        cookie : this.$data.config.cookie
+      }).then(r => {
+        if(r && r.errorcode == 0){
+          that.onSubmit();
+        }
+        else{
+          that.$emit("tips", "danger", "校验失败，请检查cookie配置");
+        }
+      });
+    },
+    onSubmit() {
+      let that = this;
       api
         .post("/configmock", {
           accesstoken: this.$cookies.get("accesstoken"),
