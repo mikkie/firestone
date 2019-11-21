@@ -14,7 +14,7 @@ module.exports = {
       .waitForElementVisible('#app', 5000)
       .assert.elementPresent('.login')
       .assert.containsText('h2', 'Firestone')
-      .setValue('input[id=username]', 'aqua')
+      .setValue('input[id=username]', 'admin')
       .setValue('input[id=password]', '123456')
       .click('button[id=login]')
   },
