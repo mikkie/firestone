@@ -208,7 +208,12 @@ export default {
       let that = this;
       api.get(`/mocktrade/${this.$cookies.get("accesstoken")}`).then(res => {
         for (let i in res) {
-          res[i]["checked"] = false;
+          if(i >= that.$data.items.length || that.$data.items[i].checked == undefined){
+            res[i]["checked"] = false;
+          }
+          else{
+            res[i]["checked"] = that.$data.items[i].checked;
+          }
           res[i]["strategy"] = res[i].strategyId.name;
         }
         that.$data.items = res;
