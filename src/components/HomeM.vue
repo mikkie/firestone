@@ -156,6 +156,10 @@ export default {
           label: "策略"
         },
         {
+          key: "op",
+          label: "操作"
+        },
+        {
           key: "state",
           label: "状态"
         },
@@ -215,6 +219,7 @@ export default {
             res[i]["checked"] = that.$data.items[i].checked;
           }
           res[i]["strategy"] = res[i].strategyId.name;
+          res[i]["op"] = res[i].strategyId.op == 'buy' ? '买' : '卖';
         }
         that.$data.items = res;
       });
