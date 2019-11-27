@@ -326,9 +326,11 @@ export default {
     bootItem(evt) {
       if (this.check_selected()) {
         let popupTip = false;
+        let now = new Date()
+        let todayStr = `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}`;
         for (let i in this.items) {
           if (this.items[i].checked == true) {
-            if (["已提交", "撤销", "已完成"].indexOf(this.items[i].state) < 0) {
+            if (["已提交", "撤销", "已完成"].indexOf(this.items[i].state) < 0 && this.items[i].params.executeDate == todayStr) {
               let that = this;
               api
                 .post("/mocktrade", {
@@ -354,7 +356,7 @@ export default {
               this.$emit(
                 "tips",
                 "danger",
-                "状态为[已提交],[撤销],[已完成]不可以启动"
+                "状态为[已提交],[撤销],[已完成]及执行日期未到，不可以启动, "
               );
             }
           }

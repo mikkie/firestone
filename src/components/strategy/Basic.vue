@@ -7,7 +7,10 @@
             <b-col lg="4">
               <label for="code">股票代码:</label>
             </b-col>
-            <b-col lg="4" v-if="this.$cookies && this.$cookies.get('basic_params').mockTrade != null">
+            <b-col
+              lg="4"
+              v-if="this.$cookies && this.$cookies.get('basic_params').mockTrade != null"
+            >
               <b-form-input
                 size="sm"
                 maxlength="6"
@@ -16,7 +19,10 @@
                 v-model="strategy.parameters.code"
               ></b-form-input>
             </b-col>
-            <b-col lg="4" v-else>
+            <b-col
+              lg="4"
+              v-else
+            >
               <b-form-input
                 size="sm"
                 maxlength="6"
@@ -37,6 +43,21 @@
                 maxlength="6"
                 id="volume"
                 v-model="strategy.parameters.volume"
+              ></b-form-input>
+            </b-col>
+            <b-col lg="4">
+            </b-col>
+          </b-row>
+          <b-row no-gutters>
+            <b-col lg="4">
+              <label for="code">执行日期:</label>
+            </b-col>
+            <b-col lg="4">
+              <b-form-input
+                size="sm"
+                type="date"
+                id="executeDate"
+                v-model="strategy.parameters.executeDate"
               ></b-form-input>
             </b-col>
             <b-col lg="4">
@@ -169,11 +190,12 @@ export default {
   data() {
     return {
       strategy: {
-          parameters : {
-              monitorTime : {},
-              index_percent : {},
-              percent : {}
-          }
+        parameters: {
+          monitorTime: {},
+          index_percent: {},
+          percent: {},
+          executeDate: "2019-11-28"
+        }
       }
     };
   },
@@ -187,23 +209,30 @@ export default {
     api.get(`/strategy/${basic_params.strategyId}`).then(res => {
       if (res) {
         this.$data.strategy = res;
-        if(basic_params.mockTrade){
+        if (basic_params.mockTrade) {
           this.$data.strategy.parameters = basic_params.mockTrade.params;
+        } else {
+          let now = new Date();
+          let date = now.getDate();
+          if (now.getHours() >= 15) {
+            date += 1;
+          }
+          this.$data.strategy.parameters.executeDate = `${now.getFullYear()}-${now.getMonth() + 1}-${date}`;
         }
       }
     });
   },
   methods: {
     save(evt) {
-      let that = this;  
+      let that = this;
       let from = this.$cookies.get("basic_params").from;
       let mockTrade = this.$cookies.get("basic_params").mockTrade;
-      if(from == 'history'){
+      if (from == "history") {
         this.$router.push({ path: "/historym" });
         return;
       }
       /*create a new mockTrade*/
-      if(mockTrade == null){
+      if (mockTrade == null) {
         api
           .post("/mocktrade/new", {
             accesstoken: this.$cookies.get("accesstoken"),
@@ -215,20 +244,21 @@ export default {
               this.$router.push({ path: "/homem" });
             }
           });
-      }
+      } else {
       /*update a mockTrade*/
-      else{
-        api.post("/mocktrade", {
-          accesstoken: this.$cookies.get("accesstoken"),
-          mocktradeid: mockTrade._id,
-          update: {
-            params : this.$data.strategy.parameters
-          }
-        }).then(r => {
+        api
+          .post("/mocktrade", {
+            accesstoken: this.$cookies.get("accesstoken"),
+            mocktradeid: mockTrade._id,
+            update: {
+              params: this.$data.strategy.parameters
+            }
+          })
+          .then(r => {
             if (r.code == that.$data.strategy.parameters.code) {
               this.$router.push({ path: "/homem" });
             }
-        });
+          });
       }
     }
   }
