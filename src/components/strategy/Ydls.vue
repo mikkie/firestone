@@ -257,12 +257,11 @@ export default {
         if (basic_params.mockTrade) {
           this.$data.strategy.parameters = basic_params.mockTrade.params;
         } else {
-          let now = new Date();
-          let date = now.getDate();
-          if (now.getHours() >= 15) {
-            date += 1;
+          let exeDate = new Date();
+          if (exeDate.getHours() >= 15) {
+            exeDate.setDate(exeDate.getDate() + 1);
           }
-          this.$data.strategy.parameters.executeDate = `${now.getFullYear()}-${now.getMonth() + 1}-${date}`;
+          this.$data.strategy.parameters.executeDate = `${exeDate.getFullYear()}-${('0' + (exeDate.getMonth() + 1)).slice(-2)}-${('0' + exeDate.getDate()).slice(-2)}`;
         }
       }
     });

@@ -327,7 +327,7 @@ export default {
       if (this.check_selected()) {
         let popupTip = false;
         let now = new Date()
-        let todayStr = `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}`;
+        let todayStr = `${now.getFullYear()}-${('0' + (now.getMonth() + 1)).slice(-2)}-${('0' + now.getDate()).slice(-2)}`;
         for (let i in this.items) {
           if (this.items[i].checked == true) {
             if (["已提交", "撤销", "已完成"].indexOf(this.items[i].state) < 0 && this.items[i].params.executeDate == todayStr) {
