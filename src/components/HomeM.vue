@@ -279,7 +279,7 @@ export default {
       for (let i = this.items.length - 1; i >= 0; i--) {
         let popupTip = false;
         if (this.items[i].checked == true) {
-          if (this.items[i].state == "已完成") {
+          if (["未开始", "已完成"].indexOf(this.items[i].state) >= 0) {
             let that = this;
             api
               .post("/mocktrade", {
@@ -295,7 +295,7 @@ export default {
                 }
               });
           } else {
-            this.$emit("tips", "danger", "状态为[已完成]才可以删除");
+            this.$emit("tips", "danger", "状态为[未开始][已完成]才可以删除");
           }
         }
       }
