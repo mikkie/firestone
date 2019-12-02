@@ -194,7 +194,7 @@ export default {
           monitorTime: {},
           index_percent: {},
           percent: {},
-          executeDate: "2019-11-28"
+          executeDate: ""
         }
       }
     };
