@@ -35,7 +35,7 @@
           </b-row>
           <b-row no-gutters>
             <b-col lg="4">
-              <label for="code">买入数量(股):</label>
+              <label for="code">买入总额(元):</label>
             </b-col>
             <b-col lg="4">
               <b-form-input
