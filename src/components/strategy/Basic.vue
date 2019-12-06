@@ -35,7 +35,8 @@
           </b-row>
           <b-row no-gutters>
             <b-col lg="4">
-              <label for="code">买入总额(元):</label>
+              <label v-if="strategy.op=='buy'" for="volume">买入总额(元):</label>
+              <label v-else for="volume">卖出数量(股):</label>
             </b-col>
             <b-col lg="4">
               <b-form-input
