@@ -181,7 +181,7 @@ export default {
     this.$emit("login", true);
     this.$emit("isMock", true);
     this.findMockTrades();
-    setInterval(this.findMockTrades,10000);
+    setInterval(this.findMockTrades,30000);
     api.get("/strategy").then(res => {
       if (res instanceof Array) {
         for (let i in res) {
