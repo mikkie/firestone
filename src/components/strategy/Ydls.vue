@@ -152,7 +152,7 @@
           </b-row>
           <b-row no-gutters>
             <b-col lg="4">
-              <label for="code">异动涨速:</label>
+              <label for="code">资金异动:</label>
             </b-col>
             <b-col lg="1">
               <label for="code">分钟:</label>
@@ -167,19 +167,6 @@
                 v-model="strategy.parameters.speed.time"
               ></b-form-input>
             </b-col>
-            <b-col lg="1">
-              <label for="code">涨幅:</label>
-            </b-col>
-            <b-col lg="1">
-              <b-form-input
-                size="sm"
-                type="number"
-                step="0.1"
-                min="-10.0"
-                max="10.0"
-                v-model="strategy.parameters.speed.percent"
-              ></b-form-input>
-            </b-col>
             <b-col lg="2">
               <label for="code">成交(万):</label>
             </b-col>
@@ -191,6 +178,47 @@
                 min="10"
                 max="50000"
                 v-model="strategy.parameters.speed.amount"
+              ></b-form-input>
+            </b-col>
+          </b-row>
+          <b-row no-gutters>
+            <b-col lg="4">
+              <label for="other">其他参数:</label>
+            </b-col>
+            <b-col lg="1">
+              <label for="other">振幅:</label>
+            </b-col>
+            <b-col lg="1">
+              <b-form-input
+                size="sm"
+                type="number"
+                step="0.1"
+                min="0"
+                max="20"
+                v-model="strategy.parameters.speed.vibration"
+              ></b-form-input>
+            </b-col>
+            <b-col lg="2">
+              <label for="other">大盘比例:</label>
+            </b-col>
+            <b-col lg="2">
+              <b-form-input
+                size="sm"
+                type="number"
+                step="0.1"
+                min="0"
+                max="10"
+                v-model="strategy.parameters.speed.ratio_l"
+              ></b-form-input>
+            </b-col>
+            <b-col lg="2">
+              <b-form-input
+                size="sm"
+                type="number"
+                step="0.1"
+                min="0"
+                max="10"
+                v-model="strategy.parameters.speed.ratio_r"
               ></b-form-input>
             </b-col>
           </b-row>

@@ -104,7 +104,7 @@ module.exports = {
     browser
       .pause(2000)
       .assert.containsText('#desc .card-header div', '异动拉升')
-      .assert.containsText('#desc .card-text', '在监控时间范围内,当大盘涨幅处于指定范围，并且当前个股涨幅处于指定范围，在涨速时间内，涨幅，成交额达到预期值则买入股票')
+      .assert.containsText('#desc .card-text', '在监控时间范围内,当大盘涨幅处于指定范围，并且当前个股涨幅处于指定范围，在异动时间内，成交额达到预期值，振幅小于给定值，大盘涨幅<0时，个股涨幅>=大盘涨幅*大盘比例(左)，大盘涨幅>=0时，个股涨幅>=大盘涨幅*大盘比例(右) 则买入股票')
     browser.setValue('input[id=code]', '600093').pause(1000)
       .click('#save_strategy').pause(2000)
       .assert.containsText('tbody tr:nth-child(1) td:nth-child(2)', '600093')
