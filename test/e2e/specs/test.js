@@ -81,11 +81,15 @@ module.exports = {
       .click('#modal button.btn-primary')
   },
   'basic strategy tests': function (browser) {
+    let exeDate = new Date();
+    if (exeDate.getHours() >= 15) {
+      exeDate.setDate(exeDate.getDate() + 1);
+    }
     browser
       .pause(2000)
       .assert.containsText('#desc .card-header div', '基础策略')
       .assert.containsText('#desc .card-text', '在监控时间范围内,当大盘涨幅处于指定范围，并且当前个股涨幅处于指定范围，则买入股票')
-      .assert.value('#executeDate', `${new Date().getFullYear()}-${('0' + (new Date().getMonth() + 1)).slice(-2)}-${('0' + new Date().getDate()).slice(-2)}`)
+      .assert.value('#executeDate', `${new Date().getFullYear()}-${('0' + (new Date().getMonth() + 1)).slice(-2)}-${('0' + exeDate.getDate()).slice(-2)}`)
     browser.setValue('input[id=code]', '300336').pause(1000)
       .click('#save_strategy').pause(2000)
       .assert.containsText('tbody tr:nth-child(1) td:nth-child(2)', '300336')

@@ -16,6 +16,6 @@ describe('Ydls.vue', () => {
     expect(vm.$el.querySelectorAll('.ydls_startegy label')[9].textContent)
       .to.equal('个股涨幅:')
       expect(vm.$el.querySelectorAll('.ydls_startegy label')[12].textContent)
-      .to.equal('异动涨速:')
+      .to.equal('资金异动:')
   })
 })
