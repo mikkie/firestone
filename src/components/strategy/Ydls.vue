@@ -195,7 +195,7 @@
                 step="0.1"
                 min="0"
                 max="20"
-                v-model="strategy.parameters.speed.vibration"
+                v-model="strategy.parameters.speed.max_vibration"
               ></b-form-input>
             </b-col>
             <b-col lg="2">
