@@ -41,7 +41,7 @@
             <b-col lg="4">
               <b-form-input
                 size="sm"
-                maxlength="6"
+                maxlength="11"
                 id="volume"
                 v-model="strategy.parameters.volume"
               ></b-form-input>
