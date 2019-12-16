@@ -185,19 +185,6 @@
             <b-col lg="4">
               <label for="other">其他参数:</label>
             </b-col>
-            <b-col lg="1">
-              <label for="other">振幅:</label>
-            </b-col>
-            <b-col lg="1">
-              <b-form-input
-                size="sm"
-                type="number"
-                step="0.1"
-                min="0"
-                max="20"
-                v-model="strategy.parameters.speed.max_vibration"
-              ></b-form-input>
-            </b-col>
             <b-col lg="2">
               <label for="other">大盘比例:</label>
             </b-col>
