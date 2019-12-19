@@ -6,6 +6,7 @@ import ConfigM from '@/components/ConfigM'
 import HomeM from '@/components/HomeM'
 import HistoryM from '@/components/HistoryM'
 import Basic from '@/components/strategy/Basic'
+import BasicSell from '@/components/strategy/BasicSell'
 import Ydls from '@/components/strategy/Ydls'
 import api from '@/api'
 
@@ -47,6 +48,11 @@ let router = new Router({
       path: '/strategy/ydls',
       name: 'Ydls',
       component: Ydls
+    },
+    {
+      path: '/strategy/basicsell',
+      name: 'BasicSell',
+      component: BasicSell
     }
   ]
 })
