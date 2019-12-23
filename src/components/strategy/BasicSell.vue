@@ -35,6 +35,36 @@
           </b-row>
           <b-row no-gutters>
             <b-col lg="4">
+              <label for="cb">成本价:</label>
+            </b-col>
+            <b-col lg="4">
+              <b-form-input
+                size="sm"
+                maxlength="11"
+                id="cb"
+                v-model="strategy.parameters.cb"
+              ></b-form-input>
+            </b-col>
+            <b-col lg="4">
+            </b-col>
+          </b-row>
+          <b-row no-gutters>
+            <b-col lg="4">
+              <label for="start_line">起始点:</label>
+            </b-col>
+            <b-col lg="4">
+              <b-form-input
+                size="sm"
+                maxlength="11"
+                id="start_line"
+                v-model="strategy.parameters.start_line"
+              ></b-form-input>
+            </b-col>
+            <b-col lg="4">
+            </b-col>
+          </b-row>
+          <b-row no-gutters>
+            <b-col lg="4">
               <label for="volume">卖出数量(股):</label>
             </b-col>
             <b-col lg="4">
