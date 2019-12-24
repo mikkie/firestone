@@ -169,6 +169,7 @@ export default {
         }
       ],
       item: null,
+      inter: null,
       items: [],
       selected_bs: "buy",
       options_bs: [{ value: "buy", text: "买" }, { value: "sell", text: "卖" }],
@@ -177,11 +178,16 @@ export default {
       options_startegy: []
     };
   },
+  beforeDestroy: function(){
+    if(this.$data.inter != null){
+      window.clearInterval(this.$data.inter);
+    }
+  },
   created: function() {
     this.$emit("login", true);
     this.$emit("isMock", true);
     this.findMockTrades();
-    setInterval(this.findMockTrades,30000);
+    this.$data.inter = window.setInterval(this.findMockTrades,30000);
     api.get("/strategy").then(res => {
       if (res instanceof Array) {
         for (let i in res) {
