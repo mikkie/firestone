@@ -8,6 +8,7 @@ import HistoryM from '@/components/HistoryM'
 import Basic from '@/components/strategy/Basic'
 import BasicSell from '@/components/strategy/BasicSell'
 import Ydls from '@/components/strategy/Ydls'
+import ConceptPick from '@/components/strategy/ConceptPick'
 import api from '@/api'
 
 Vue.use(Router)
@@ -53,6 +54,11 @@ let router = new Router({
       path: '/strategy/basicsell',
       name: 'BasicSell',
       component: BasicSell
+    },
+    {
+      path: '/strategy/conceptpick',
+      name: 'ConceptPick',
+      component: ConceptPick
     }
   ]
 })

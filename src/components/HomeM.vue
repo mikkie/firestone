@@ -172,7 +172,7 @@ export default {
       inter: null,
       items: [],
       selected_bs: "buy",
-      options_bs: [{ value: "buy", text: "买" }, { value: "sell", text: "卖" }],
+      options_bs: [{ value: "buy", text: "买" }, { value: "sell", text: "卖" }, {value: 'select', text: '选'}],
       selected_startegy: null,
       related_strategies: [],
       options_startegy: []
@@ -225,7 +225,7 @@ export default {
             res[i]["checked"] = that.$data.items[i].checked;
           }
           res[i]["strategy"] = res[i].strategyId.name;
-          res[i]["op"] = res[i].strategyId.op == 'buy' ? '买' : '卖';
+          res[i]["op"] = res[i].strategyId.op == 'buy' ? '买' : res[i].strategyId.op == 'sell' ? '卖' : '选';
         }
         that.$data.items = res;
       });
