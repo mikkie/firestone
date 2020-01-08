@@ -312,11 +312,6 @@ export default {
     startFireStoneRock(code, tradeId) {
       let codes = [code];
       let that = this;
-      if (code.startsWith("3")) {
-        codes.push("399006");
-      } else {
-        codes.push("000001");
-      }
       api
         .post("/firestonerock", {
           accesstoken: this.$cookies.get("accesstoken"),
