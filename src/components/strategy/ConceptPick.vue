@@ -108,6 +108,23 @@
           </b-row>
           <b-row no-gutters>
             <b-col lg="4">
+              <label for="max_concept">概念数量:</label>
+            </b-col>
+            <b-col
+              lg="4"
+            >
+              <b-form-input
+                size="sm"
+                maxlength="10"
+                id="max_concept"
+                v-model="strategy.parameters.max_concept"
+              ></b-form-input>
+            </b-col>
+            <b-col lg="4">
+            </b-col>
+          </b-row>
+          <b-row no-gutters>
+            <b-col lg="4">
               <label for="top_concept">选取数量:</label>
             </b-col>
             <b-col
