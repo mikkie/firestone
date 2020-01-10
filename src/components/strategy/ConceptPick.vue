@@ -74,6 +74,23 @@
           </b-row>
           <b-row no-gutters>
             <b-col lg="4">
+              <label for="concepts">热门概念:</label>
+            </b-col>
+            <b-col
+              lg="4"
+            >
+              <b-form-input
+                size="sm"
+                maxlength="50000"
+                id="concepts"
+                v-model="strategy.parameters.concepts"
+              ></b-form-input>
+            </b-col>
+            <b-col lg="4">
+            </b-col>
+          </b-row>
+          <b-row no-gutters>
+            <b-col lg="4">
               <label for="company_count">公司数量:</label>
             </b-col>
             <b-col
