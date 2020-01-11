@@ -9,7 +9,7 @@
             </b-col>
             <b-col
               lg="4"
-              v-if="this.$cookies && this.$cookies.get('basic_params').mockTrade != null"
+              v-if="this.getItemFromLocalStorage('basic_params').mockTrade != null"
             >
               <b-form-input
                 size="sm"
@@ -212,7 +212,7 @@
           <b-row no-gutters>
             <b-col lg="12">
               <b-button
-                v-if="this.$cookies && this.$cookies.get('basic_params').from == 'history'"
+                v-if="this.getItemFromLocalStorage('basic_params').from == 'history'"
                 v-on:click="save"
                 variant="primary"
                 id="save_strategy"
@@ -260,12 +260,13 @@ export default {
     };
   },
   created: function() {
+    this.$data.localStorage = window.localStorage
     this.$emit("login", true);
     let basic_params = this.$route.params;
     if (!basic_params) {
-      basic_params = this.$cookies.get("basic_params");
+      basic_params = this.getItemFromLocalStorage("basic_params");
     }
-    this.$cookies.set("basic_params", basic_params);
+    this.setItemToLocalStorage("basic_params", basic_params);
     api.get(`/strategy/${basic_params.strategyId}`).then(res => {
       if (res) {
         this.$data.strategy = res;
@@ -282,10 +283,17 @@ export default {
     });
   },
   methods: {
+    setItemToLocalStorage(key, item){
+      this.$data.localStorage.setItem(key, JSON.stringify(item))
+    },
+    getItemFromLocalStorage(key){
+      let itemString = this.$data.localStorage.getItem(key)
+      return JSON.parse(itemString)
+    },
     save(evt) {
       let that = this;
-      let from = this.$cookies.get("basic_params").from;
-      let mockTrade = this.$cookies.get("basic_params").mockTrade;
+      let from = this.getItemFromLocalStorage("basic_params").from;
+      let mockTrade = this.getItemFromLocalStorage("basic_params").mockTrade;
       if (from == "history") {
         this.$router.push({ path: "/historym" });
         return;
@@ -295,7 +303,7 @@ export default {
         api
           .post("/mocktrade/new", {
             accesstoken: this.$cookies.get("accesstoken"),
-            strategyId: this.$cookies.get("basic_params").strategyId,
+            strategyId: this.getItemFromLocalStorage("basic_params").strategyId,
             params: this.$data.strategy.parameters
           })
           .then(r => {
