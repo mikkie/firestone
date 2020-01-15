@@ -38,6 +38,31 @@
           </b-row>
           <b-row no-gutters>
             <b-col lg="4">
+              <label for="code">监控时间:</label>
+            </b-col>
+            <b-col lg="1">
+              <label for="code">起始:</label>
+            </b-col>
+            <b-col lg="3">
+              <b-form-input
+                type="time"
+                size="sm"
+                v-model="strategy.parameters.monitorTime.start"
+              ></b-form-input>
+            </b-col>
+            <b-col lg="1">
+              <label for="code">结束:</label>
+            </b-col>
+            <b-col lg="3">
+              <b-form-input
+                type="time"
+                size="sm"
+                v-model="strategy.parameters.monitorTime.end"
+              ></b-form-input>
+            </b-col>
+          </b-row>
+          <b-row no-gutters>
+            <b-col lg="4">
               <label for="code">指数涨幅:</label>
             </b-col>
             <b-col lg="1">
