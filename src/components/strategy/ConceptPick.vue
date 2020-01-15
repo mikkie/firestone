@@ -133,6 +133,23 @@
           </b-row>
           <b-row no-gutters>
             <b-col lg="4">
+              <label for="net_buy">净买入:</label>
+            </b-col>
+            <b-col
+              lg="4"
+            >
+              <b-form-input
+                size="sm"
+                maxlength="1000"
+                id="net_buy"
+                v-model="strategy.parameters.net_buy"
+              ></b-form-input>
+            </b-col>
+            <b-col lg="4">
+            </b-col>
+          </b-row>
+          <b-row no-gutters>
+            <b-col lg="4">
               <label for="max_percent">最大涨幅:</label>
             </b-col>
             <b-col
