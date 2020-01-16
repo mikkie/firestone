@@ -184,7 +184,24 @@
           </b-row>
           <b-row no-gutters>
             <b-col lg="4">
-              <label for="top_concept">选取数量:</label>
+              <label for="monitor_count">选取数量:</label>
+            </b-col>
+            <b-col
+              lg="4"
+            >
+              <b-form-input
+                size="sm"
+                maxlength="10"
+                id="monitor_count"
+                v-model="strategy.parameters.monitor_count"
+              ></b-form-input>
+            </b-col>
+            <b-col lg="4">
+            </b-col>
+          </b-row>
+          <b-row no-gutters>
+            <b-col lg="4">
+              <label for="top_concept">概念强弱:</label>
             </b-col>
             <b-col
               lg="4"
