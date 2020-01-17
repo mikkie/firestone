@@ -9,7 +9,7 @@
             </b-col>
             <b-col
               lg="4"
-              v-if="this.getItemFromLocalStorage('basic_params').mockTrade != null"
+              v-if="this.$cookie && this.getItemFromLocalStorage('basic_params').mockTrade != null"
             >
               <b-form-input
                 size="sm"
@@ -153,7 +153,7 @@
           <b-row no-gutters>
             <b-col lg="12">
               <b-button
-                v-if="this.getItemFromLocalStorage('basic_params').from == 'history'"
+                v-if="this.$cookie && this.getItemFromLocalStorage('basic_params').from == 'history'"
                 v-on:click="save"
                 variant="primary"
                 id="save_strategy"
