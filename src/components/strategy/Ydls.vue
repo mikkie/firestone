@@ -152,6 +152,21 @@
           </b-row>
           <b-row no-gutters>
             <b-col lg="4">
+              <label for="break_top">下跌停止:</label>
+            </b-col>
+            <b-col lg="4">
+              <b-form-input
+                size="sm"
+                maxlength="5"
+                id="break_top"
+                v-model="strategy.parameters.speed.break_top"
+              ></b-form-input>
+            </b-col>
+            <b-col lg="4">
+            </b-col>
+          </b-row>
+          <b-row no-gutters>
+            <b-col lg="4">
               <label for="code">资金异动:</label>
             </b-col>
             <b-col lg="1">
