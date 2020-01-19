@@ -167,6 +167,37 @@
           </b-row>
           <b-row no-gutters>
             <b-col lg="4">
+              <label for="speed">涨速异动:</label>
+            </b-col>
+            <b-col lg="1">
+              <label for="speed_time">分钟:</label>
+            </b-col>
+            <b-col lg="1">
+              <b-form-input
+                size="sm"
+                type="number"
+                step="0.5"
+                min="1"
+                max="5"
+                v-model="strategy.parameters.speed.time_2"
+              ></b-form-input>
+            </b-col>
+            <b-col lg="2">
+              <label for="speed_percent">涨幅:</label>
+            </b-col>
+            <b-col lg="2">
+              <b-form-input
+                size="sm"
+                type="number"
+                step="0.01"
+                min="-20"
+                max="20"
+                v-model="strategy.parameters.speed.percent"
+              ></b-form-input>
+            </b-col>
+          </b-row>
+          <b-row no-gutters>
+            <b-col lg="4">
               <label for="code">资金异动:</label>
             </b-col>
             <b-col lg="1">
