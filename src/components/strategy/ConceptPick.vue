@@ -78,6 +78,19 @@
                 v-model="strategy.parameters.index_percent"
               ></b-form-input>
             </b-col>
+            <b-col lg="1">
+              <label for="index_max_percent">最高:</label>
+            </b-col>
+            <b-col lg="3">
+              <b-form-input
+                size="sm"
+                type="number"
+                step="0.1"
+                min="-10.0"
+                max="10.0"
+                v-model="strategy.parameters.index_max_percent"
+              ></b-form-input>
+            </b-col>
           </b-row>
           <b-row no-gutters>
             <b-col lg="4">
@@ -143,6 +156,23 @@
                 maxlength="1000"
                 id="net_buy"
                 v-model="strategy.parameters.net_buy"
+              ></b-form-input>
+            </b-col>
+            <b-col lg="4">
+            </b-col>
+          </b-row>
+          <b-row no-gutters>
+            <b-col lg="4">
+              <label for="min_percent">最低涨幅:</label>
+            </b-col>
+            <b-col
+              lg="4"
+            >
+              <b-form-input
+                size="sm"
+                maxlength="10"
+                id="min_percent"
+                v-model="strategy.parameters.min_percent"
               ></b-form-input>
             </b-col>
             <b-col lg="4">
