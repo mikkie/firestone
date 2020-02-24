@@ -94,6 +94,37 @@
           </b-row>
           <b-row no-gutters>
             <b-col lg="4">
+              <label for="open_percent">开盘涨幅:</label>
+            </b-col>
+            <b-col lg="1">
+              <label for="min_open_percent">最低:</label>
+            </b-col>
+            <b-col lg="3">
+              <b-form-input
+                size="sm"
+                type="number"
+                step="0.1"
+                min="-10.0"
+                max="10.0"
+                v-model="strategy.parameters.min_open_percent"
+              ></b-form-input>
+            </b-col>
+            <b-col lg="1">
+              <label for="max_open_percent">最高:</label>
+            </b-col>
+            <b-col lg="3">
+              <b-form-input
+                size="sm"
+                type="number"
+                step="0.1"
+                min="-10.0"
+                max="10.0"
+                v-model="strategy.parameters.max_open_percent"
+              ></b-form-input>
+            </b-col>
+          </b-row>
+          <b-row no-gutters>
+            <b-col lg="4">
               <label for="code">个股涨幅:</label>
             </b-col>
             <b-col lg="1">
