@@ -1,5 +1,5 @@
 <template>
-  <div class="basic_startegy">
+  <div class="batch_ydls_startegy">
     <b-container>
       <b-row no-gutters>
         <b-col lg="6">
@@ -13,7 +13,7 @@
             >
               <b-form-input
                 size="sm"
-                maxlength="6"
+                maxlength="350"
                 id="code"
                 plaintext
                 v-model="strategy.parameters.code"
@@ -25,7 +25,7 @@
             >
               <b-form-input
                 size="sm"
-                maxlength="6"
+                maxlength="350"
                 id="code"
                 v-model="strategy.parameters.code"
               ></b-form-input>
@@ -65,66 +65,40 @@
           </b-row>
           <b-row no-gutters>
             <b-col lg="4">
-              <label for="code">监控时间:</label>
+              <label for="desc">描述:</label>
             </b-col>
-            <b-col lg="1">
-              <label for="code">起始:</label>
-            </b-col>
-            <b-col lg="3">
+            <b-col lg="4">
               <b-form-input
-                type="time"
                 size="sm"
-                v-model="strategy.parameters.monitorTime.start"
+                maxlength="50"
+                id="desc"
+                v-model="strategy.parameters.desc"
               ></b-form-input>
             </b-col>
-            <b-col lg="1">
-              <label for="code">结束:</label>
-            </b-col>
-            <b-col lg="3">
-              <b-form-input
-                type="time"
-                size="sm"
-                v-model="strategy.parameters.monitorTime.end"
-              ></b-form-input>
+            <b-col lg="4">
             </b-col>
           </b-row>
           <b-row no-gutters>
             <b-col lg="4">
-              <label for="code">大盘涨幅:</label>
+              <label for="max_stock_percent">妖股涨幅:</label>
             </b-col>
-            <b-col lg="1">
-              <label for="code">最低:</label>
-            </b-col>
-            <b-col lg="3">
+            <b-col lg="4">
               <b-form-input
                 size="sm"
-                type="number"
-                step="0.1"
-                min="-10.0"
-                max="10.0"
-                v-model="strategy.parameters.index_percent.low"
+                maxlength="11"
+                id="max_stock_percent"
+                v-model="strategy.parameters.max_stock_percent"
               ></b-form-input>
             </b-col>
-            <b-col lg="1">
-              <label for="code">最高:</label>
-            </b-col>
-            <b-col lg="3">
-              <b-form-input
-                size="sm"
-                type="number"
-                step="0.1"
-                min="-10.0"
-                max="10.0"
-                v-model="strategy.parameters.index_percent.high"
-              ></b-form-input>
+            <b-col lg="4">
             </b-col>
           </b-row>
           <b-row no-gutters>
             <b-col lg="4">
-              <label for="code">个股涨幅:</label>
+              <label for="open_percent">开盘涨幅:</label>
             </b-col>
             <b-col lg="1">
-              <label for="code">最低:</label>
+              <label for="open_percent_low">最低:</label>
             </b-col>
             <b-col lg="3">
               <b-form-input
@@ -133,11 +107,11 @@
                 step="0.1"
                 min="-10.0"
                 max="10.0"
-                v-model="strategy.parameters.percent.low"
+                v-model="strategy.parameters.open_percent_low"
               ></b-form-input>
             </b-col>
             <b-col lg="1">
-              <label for="code">最高:</label>
+              <label for="open_percent_high">最高:</label>
             </b-col>
             <b-col lg="3">
               <b-form-input
@@ -146,7 +120,7 @@
                 step="0.1"
                 min="-10.0"
                 max="10.0"
-                v-model="strategy.parameters.percent.high"
+                v-model="strategy.parameters.open_percent_high"
               ></b-form-input>
             </b-col>
           </b-row>
@@ -186,7 +160,7 @@
 <script>
 import api from "@/api";
 export default {
-  name: "basic_strategy",
+  name: "batch_ydls_startegy",
   data() {
     return {
       strategy: {
