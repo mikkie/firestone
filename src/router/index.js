@@ -6,6 +6,10 @@ import ConfigM from '@/components/ConfigM'
 import HomeM from '@/components/HomeM'
 import HistoryM from '@/components/HistoryM'
 import Basic from '@/components/strategy/Basic'
+import BasicSell from '@/components/strategy/BasicSell'
+import Ydls from '@/components/strategy/Ydls'
+import ConceptPick from '@/components/strategy/ConceptPick'
+import BatchYdls from '@/components/strategy/BatchYdls'
 import api from '@/api'
 
 Vue.use(Router)
@@ -41,6 +45,26 @@ let router = new Router({
       path: '/strategy/basic',
       name: 'Basic',
       component: Basic
+    },
+    {
+      path: '/strategy/ydls',
+      name: 'Ydls',
+      component: Ydls
+    },
+    {
+      path: '/strategy/basicsell',
+      name: 'BasicSell',
+      component: BasicSell
+    },
+    {
+      path: '/strategy/conceptpick',
+      name: 'ConceptPick',
+      component: ConceptPick
+    },
+    {
+      path: '/strategy/batchydls',
+      name: 'BatchYdls',
+      component: BatchYdls
     }
   ]
 })

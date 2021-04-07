@@ -35,7 +35,37 @@
           </b-row>
           <b-row no-gutters>
             <b-col lg="4">
-              <label for="volume">买入总额(元):</label>
+              <label for="cb">成本价:</label>
+            </b-col>
+            <b-col lg="4">
+              <b-form-input
+                size="sm"
+                maxlength="11"
+                id="cb"
+                v-model="strategy.parameters.cb"
+              ></b-form-input>
+            </b-col>
+            <b-col lg="4">
+            </b-col>
+          </b-row>
+          <b-row no-gutters>
+            <b-col lg="4">
+              <label for="start_line">起始点:</label>
+            </b-col>
+            <b-col lg="4">
+              <b-form-input
+                size="sm"
+                maxlength="11"
+                id="start_line"
+                v-model="strategy.parameters.start_line"
+              ></b-form-input>
+            </b-col>
+            <b-col lg="4">
+            </b-col>
+          </b-row>
+          <b-row no-gutters>
+            <b-col lg="4">
+              <label for="volume">卖出数量(股):</label>
             </b-col>
             <b-col lg="4">
               <b-form-input
@@ -90,10 +120,10 @@
           </b-row>
           <b-row no-gutters>
             <b-col lg="4">
-              <label for="code">大盘涨幅:</label>
+              <label for="stop_loss">强制止损:</label>
             </b-col>
             <b-col lg="1">
-              <label for="code">最低:</label>
+              <label for="stop_loss">涨幅:</label>
             </b-col>
             <b-col lg="3">
               <b-form-input
@@ -102,52 +132,21 @@
                 step="0.1"
                 min="-10.0"
                 max="10.0"
-                v-model="strategy.parameters.index_percent.low"
-              ></b-form-input>
-            </b-col>
-            <b-col lg="1">
-              <label for="code">最高:</label>
-            </b-col>
-            <b-col lg="3">
-              <b-form-input
-                size="sm"
-                type="number"
-                step="0.1"
-                min="-10.0"
-                max="10.0"
-                v-model="strategy.parameters.index_percent.high"
+                v-model="strategy.parameters.hard_stop"
               ></b-form-input>
             </b-col>
           </b-row>
           <b-row no-gutters>
             <b-col lg="4">
-              <label for="code">个股涨幅:</label>
+              <label for="code">涨停卖出:</label>
             </b-col>
             <b-col lg="1">
-              <label for="code">最低:</label>
-            </b-col>
-            <b-col lg="3">
-              <b-form-input
-                size="sm"
-                type="number"
-                step="0.1"
-                min="-10.0"
-                max="10.0"
-                v-model="strategy.parameters.percent.low"
-              ></b-form-input>
-            </b-col>
-            <b-col lg="1">
-              <label for="code">最高:</label>
-            </b-col>
-            <b-col lg="3">
-              <b-form-input
-                size="sm"
-                type="number"
-                step="0.1"
-                min="-10.0"
-                max="10.0"
-                v-model="strategy.parameters.percent.high"
-              ></b-form-input>
+              <b-form-checkbox
+                class="mb-2 mr-sm-2 mb-sm-0"
+                v-model="strategy.parameters.sell_on_zt"
+                value="1"
+                unchecked-value="0"
+              ></b-form-checkbox>
             </b-col>
           </b-row>
           <b-row no-gutters>
@@ -217,7 +216,10 @@ export default {
           if (exeDate.getHours() >= 15) {
             exeDate.setDate(exeDate.getDate() + 1);
           }
-          this.$data.strategy.parameters.executeDate = `${exeDate.getFullYear()}-${('0' + (exeDate.getMonth() + 1)).slice(-2)}-${('0' + exeDate.getDate()).slice(-2)}`;
+          this.$data.strategy.parameters.executeDate = `${exeDate.getFullYear()}-${(
+            "0" +
+            (exeDate.getMonth() + 1)
+          ).slice(-2)}-${("0" + exeDate.getDate()).slice(-2)}`;
         }
       }
     });
@@ -252,7 +254,7 @@ export default {
             }
           });
       } else {
-      /*update a mockTrade*/
+        /*update a mockTrade*/
         api
           .post("/mocktrade", {
             accesstoken: this.$cookies.get("accesstoken"),

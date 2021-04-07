@@ -14,7 +14,7 @@ module.exports = {
       .waitForElementVisible('#app', 5000)
       .assert.elementPresent('.login')
       .assert.containsText('h2', 'Firestone')
-      .setValue('input[id=username]', 'aqua')
+      .setValue('input[id=username]', 'admin')
       .setValue('input[id=password]', '123456')
       .click('button[id=login]')
   },
@@ -53,7 +53,7 @@ module.exports = {
     browser.click('#boot_item').pause(500)
     browser.expect.element('div[role="alert"]').to.be.present
     //boot item
-    browser.execute("document.querySelector('tbody tr:nth-child(1) td:nth-child(1) input').click()");
+    /*browser.execute("document.querySelector('tbody tr:nth-child(1) td:nth-child(1) input').click()");
     browser.pause(500)
     browser
       .click('#boot_item')
@@ -63,7 +63,7 @@ module.exports = {
     browser
       .click('#pause_item')
       .pause(500)
-      .assert.containsText('tbody tr:nth-child(1) td:nth-child(4)', '暂停')
+      .assert.containsText('tbody tr:nth-child(1) td:nth-child(4)', '暂停')*/
     //del item  
     browser.execute("document.querySelector('tbody tr:nth-child(1) td:nth-child(1) input').click()");
     browser.execute("document.querySelector('tbody tr:nth-child(3) td:nth-child(1) input').click()");
@@ -72,7 +72,7 @@ module.exports = {
       .pause(500)
       .click('#del_item_modal button.btn-primary')
       .pause(500)
-      .assert.elementCount('tbody tr', 2)
+      .assert.elementCount('tbody tr', 1)
     //new item
     browser.execute("document.querySelector('tbody tr:nth-child(1) td:nth-child(1) input').click()");
     browser
@@ -81,15 +81,39 @@ module.exports = {
       .click('#modal button.btn-primary')
   },
   'basic strategy tests': function (browser) {
+    let exeDate = new Date();
+    if (exeDate.getHours() >= 15) {
+      exeDate.setDate(exeDate.getDate() + 1);
+    }
     browser
       .pause(2000)
       .assert.containsText('#desc .card-header div', '基础策略')
       .assert.containsText('#desc .card-text', '在监控时间范围内,当大盘涨幅处于指定范围，并且当前个股涨幅处于指定范围，则买入股票')
+      .assert.value('#executeDate', `${new Date().getFullYear()}-${('0' + (new Date().getMonth() + 1)).slice(-2)}-${('0' + exeDate.getDate()).slice(-2)}`)
     browser.setValue('input[id=code]', '300336').pause(1000)
       .click('#save_strategy').pause(2000)
-      .assert.containsText('tbody tr:nth-child(3) td:nth-child(2)', '300336')
-    browser.click('tbody tr:nth-child(3) td:nth-child(3) a').pause(1000)
+      .assert.containsText('tbody tr:nth-child(1) td:nth-child(2)', '300336')
+    browser.click('tbody tr:nth-child(1) td:nth-child(3) a').pause(1000)
       .assert.value('div input:nth-child(1)','300336')
+    browser.click('#save_strategy').pause(1000)
+    //new item
+    browser
+      .click('#new_item')
+      .pause(500)
+      .click('#select_strategy option[value="5da19b7d181fc3600c5544c3"]')
+      .pause(500)
+      .click('#modal button.btn-primary')
+  },
+  'ydls strategy tests': function (browser) {
+    browser
+      .pause(2000)
+      .assert.containsText('#desc .card-header div', '异动拉升')
+      .assert.containsText('#desc .card-text', '在监控时间范围内,当大盘涨幅处于指定范围，并且当前个股涨幅处于指定范围，在异动时间内，成交额达到预期值，大盘涨幅<0时，个股涨幅>=大盘涨幅*大盘比例(左)，大盘涨幅>=0时，个股涨幅>=大盘涨幅*大盘比例(右) 则买入股票')
+    browser.setValue('input[id=code]', '600093').pause(1000)
+      .click('#save_strategy').pause(2000)
+      .assert.containsText('tbody tr:nth-child(1) td:nth-child(2)', '600093')
+    browser.click('tbody tr:nth-child(1) td:nth-child(3) a').pause(1000)
+      .assert.value('div input:nth-child(1)','600093')
     browser.click('#history')
   },
   'history tests': function (browser) {

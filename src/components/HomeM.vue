@@ -93,6 +93,7 @@
           :options="options_bs"
         ></b-form-select>
         <b-form-select
+          id="select_strategy"
           v-model="selected_startegy"
           :options="related_strategies"
         ></b-form-select>
@@ -155,6 +156,10 @@ export default {
           label: "策略"
         },
         {
+          key: "op",
+          label: "操作"
+        },
+        {
           key: "state",
           label: "状态"
         },
@@ -164,19 +169,25 @@ export default {
         }
       ],
       item: null,
+      inter: null,
       items: [],
       selected_bs: "buy",
-      options_bs: [{ value: "buy", text: "买" }, { value: "sell", text: "卖" }],
+      options_bs: [{ value: "buy", text: "买" }, { value: "sell", text: "卖" }, {value: 'select', text: '选'}],
       selected_startegy: null,
       related_strategies: [],
       options_startegy: []
     };
   },
+  beforeDestroy: function(){
+    if(this.$data.inter != null){
+      window.clearInterval(this.$data.inter);
+    }
+  },
   created: function() {
     this.$emit("login", true);
     this.$emit("isMock", true);
     this.findMockTrades();
-    setInterval(this.findMockTrades,10000);
+    this.$data.inter = window.setInterval(this.findMockTrades,30000);
     api.get("/strategy").then(res => {
       if (res instanceof Array) {
         for (let i in res) {
@@ -207,8 +218,14 @@ export default {
       let that = this;
       api.get(`/mocktrade/${this.$cookies.get("accesstoken")}`).then(res => {
         for (let i in res) {
-          res[i]["checked"] = false;
+          if(i >= that.$data.items.length || that.$data.items[i].checked == undefined){
+            res[i]["checked"] = false;
+          }
+          else{
+            res[i]["checked"] = that.$data.items[i].checked;
+          }
           res[i]["strategy"] = res[i].strategyId.name;
+          res[i]["op"] = res[i].strategyId.op == 'buy' ? '买' : res[i].strategyId.op == 'sell' ? '卖' : '选';
         }
         that.$data.items = res;
       });
@@ -268,7 +285,7 @@ export default {
       for (let i = this.items.length - 1; i >= 0; i--) {
         let popupTip = false;
         if (this.items[i].checked == true) {
-          if (this.items[i].state == "已完成") {
+          if (["未开始", "已完成"].indexOf(this.items[i].state) >= 0) {
             let that = this;
             api
               .post("/mocktrade", {
@@ -284,7 +301,7 @@ export default {
                 }
               });
           } else {
-            this.$emit("tips", "danger", "状态为[已完成]才可以删除");
+            this.$emit("tips", "danger", "状态为[未开始][已完成]才可以删除");
           }
         }
       }
@@ -295,11 +312,6 @@ export default {
     startFireStoneRock(code, tradeId) {
       let codes = [code];
       let that = this;
-      if (code.startsWith("3")) {
-        codes.push("399006");
-      } else {
-        codes.push("000001");
-      }
       api
         .post("/firestonerock", {
           accesstoken: this.$cookies.get("accesstoken"),
@@ -315,9 +327,11 @@ export default {
     bootItem(evt) {
       if (this.check_selected()) {
         let popupTip = false;
+        let now = new Date()
+        let todayStr = `${now.getFullYear()}-${('0' + (now.getMonth() + 1)).slice(-2)}-${('0' + now.getDate()).slice(-2)}`;
         for (let i in this.items) {
           if (this.items[i].checked == true) {
-            if (["已提交", "撤销", "已完成"].indexOf(this.items[i].state) < 0) {
+            if (["已提交", "撤销", "已完成"].indexOf(this.items[i].state) < 0 && this.items[i].params.executeDate == todayStr) {
               let that = this;
               api
                 .post("/mocktrade", {
@@ -343,7 +357,7 @@ export default {
               this.$emit(
                 "tips",
                 "danger",
-                "状态为[已提交],[撤销],[已完成]不可以启动"
+                "状态为[已提交],[撤销],[已完成]及执行日期未到，不可以启动, "
               );
             }
           }

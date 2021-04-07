@@ -71,6 +71,10 @@ export default {
           label: "策略"
         },
         {
+          key: "op",
+          label: "操作"
+        },
+        {
           key: "result",
           label: "交易结果"
         }
@@ -113,6 +117,7 @@ export default {
         .then(res => {
           for (let i in res) {
             res[i]["strategy"] = res[i].strategyId.name;
+            res[i]["op"] = res[i].strategyId.op == 'buy' ? '买' : '卖';
             res[i]["createDate"] = this.formatDate(
               new Date(res[i]["createDate"])
             );
@@ -128,7 +133,7 @@ export default {
       });
     },
     formatDate(date) {
-      return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+      return `${date.getFullYear()}-${('0' + (date.getMonth() + 1)).slice(-2)}-${('0' + date.getDate()).slice(-2)}`;
     }
   }
 };

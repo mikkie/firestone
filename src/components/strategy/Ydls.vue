@@ -1,5 +1,5 @@
 <template>
-  <div class="basic_startegy">
+  <div class="ydls_startegy">
     <b-container>
       <b-row no-gutters>
         <b-col lg="6">
@@ -35,7 +35,7 @@
           </b-row>
           <b-row no-gutters>
             <b-col lg="4">
-              <label for="volume">买入总额(元):</label>
+              <label for="code">买入总额(元):</label>
             </b-col>
             <b-col lg="4">
               <b-form-input
@@ -121,6 +121,37 @@
           </b-row>
           <b-row no-gutters>
             <b-col lg="4">
+              <label for="open_percent">开盘涨幅:</label>
+            </b-col>
+            <b-col lg="1">
+              <label for="open_percent_low">最低:</label>
+            </b-col>
+            <b-col lg="3">
+              <b-form-input
+                size="sm"
+                type="number"
+                step="0.1"
+                min="-10.0"
+                max="10.0"
+                v-model="strategy.parameters.open_percent.low"
+              ></b-form-input>
+            </b-col>
+            <b-col lg="1">
+              <label for="open_percent_high">最高:</label>
+            </b-col>
+            <b-col lg="3">
+              <b-form-input
+                size="sm"
+                type="number"
+                step="0.1"
+                min="-10.0"
+                max="10.0"
+                v-model="strategy.parameters.open_percent.high"
+              ></b-form-input>
+            </b-col>
+          </b-row>
+          <b-row no-gutters>
+            <b-col lg="4">
               <label for="code">个股涨幅:</label>
             </b-col>
             <b-col lg="1">
@@ -147,6 +178,111 @@
                 min="-10.0"
                 max="10.0"
                 v-model="strategy.parameters.percent.high"
+              ></b-form-input>
+            </b-col>
+          </b-row>
+          <b-row no-gutters>
+            <b-col lg="4">
+              <label for="break_top">下跌停止:</label>
+            </b-col>
+            <b-col lg="4">
+              <b-form-input
+                size="sm"
+                maxlength="5"
+                id="break_top"
+                v-model="strategy.parameters.speed.break_top"
+              ></b-form-input>
+            </b-col>
+            <b-col lg="4">
+            </b-col>
+          </b-row>
+          <b-row no-gutters>
+            <b-col lg="4">
+              <label for="speed">涨速异动:</label>
+            </b-col>
+            <b-col lg="1">
+              <label for="speed_time">分钟:</label>
+            </b-col>
+            <b-col lg="1">
+              <b-form-input
+                size="sm"
+                type="number"
+                step="0.5"
+                min="1"
+                max="5"
+                v-model="strategy.parameters.speed.time_2"
+              ></b-form-input>
+            </b-col>
+            <b-col lg="2">
+              <label for="speed_percent">涨幅:</label>
+            </b-col>
+            <b-col lg="2">
+              <b-form-input
+                size="sm"
+                type="number"
+                step="0.01"
+                min="-20"
+                max="20"
+                v-model="strategy.parameters.speed.percent"
+              ></b-form-input>
+            </b-col>
+          </b-row>
+          <b-row no-gutters>
+            <b-col lg="4">
+              <label for="code">资金异动:</label>
+            </b-col>
+            <b-col lg="1">
+              <label for="code">分钟:</label>
+            </b-col>
+            <b-col lg="1">
+              <b-form-input
+                size="sm"
+                type="number"
+                step="0.5"
+                min="1"
+                max="5"
+                v-model="strategy.parameters.speed.time"
+              ></b-form-input>
+            </b-col>
+            <b-col lg="2">
+              <label for="code">成交(万):</label>
+            </b-col>
+            <b-col lg="2">
+              <b-form-input
+                size="sm"
+                type="number"
+                step="1"
+                min="10"
+                max="50000"
+                v-model="strategy.parameters.speed.amount"
+              ></b-form-input>
+            </b-col>
+          </b-row>
+          <b-row no-gutters>
+            <b-col lg="4">
+              <label for="other">其他参数:</label>
+            </b-col>
+            <b-col lg="2">
+              <label for="other">大盘比例:</label>
+            </b-col>
+            <b-col lg="2">
+              <b-form-input
+                size="sm"
+                type="number"
+                step="0.1"
+                min="0"
+                max="10"
+                v-model="strategy.parameters.speed.ratio_l"
+              ></b-form-input>
+            </b-col>
+            <b-col lg="2">
+              <b-form-input
+                size="sm"
+                type="number"
+                step="0.1"
+                min="0"
+                max="10"
+                v-model="strategy.parameters.speed.ratio_r"
               ></b-form-input>
             </b-col>
           </b-row>
@@ -186,7 +322,7 @@
 <script>
 import api from "@/api";
 export default {
-  name: "basic_strategy",
+  name: "ydls_startegy",
   data() {
     return {
       strategy: {
@@ -194,6 +330,7 @@ export default {
           monitorTime: {},
           index_percent: {},
           percent: {},
+          speed: {},
           executeDate: ""
         }
       }

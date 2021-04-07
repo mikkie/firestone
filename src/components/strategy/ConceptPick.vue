@@ -9,7 +9,6 @@
             </b-col>
             <b-col
               lg="4"
-              v-if="this.getItemFromLocalStorage('basic_params').mockTrade != null"
             >
               <b-form-input
                 size="sm"
@@ -17,32 +16,6 @@
                 id="code"
                 plaintext
                 v-model="strategy.parameters.code"
-              ></b-form-input>
-            </b-col>
-            <b-col
-              lg="4"
-              v-else
-            >
-              <b-form-input
-                size="sm"
-                maxlength="6"
-                id="code"
-                v-model="strategy.parameters.code"
-              ></b-form-input>
-            </b-col>
-            <b-col lg="4">
-            </b-col>
-          </b-row>
-          <b-row no-gutters>
-            <b-col lg="4">
-              <label for="volume">买入总额(元):</label>
-            </b-col>
-            <b-col lg="4">
-              <b-form-input
-                size="sm"
-                maxlength="11"
-                id="volume"
-                v-model="strategy.parameters.volume"
               ></b-form-input>
             </b-col>
             <b-col lg="4">
@@ -90,7 +63,7 @@
           </b-row>
           <b-row no-gutters>
             <b-col lg="4">
-              <label for="code">大盘涨幅:</label>
+              <label for="code">指数涨幅:</label>
             </b-col>
             <b-col lg="1">
               <label for="code">最低:</label>
@@ -102,11 +75,11 @@
                 step="0.1"
                 min="-10.0"
                 max="10.0"
-                v-model="strategy.parameters.index_percent.low"
+                v-model="strategy.parameters.index_percent"
               ></b-form-input>
             </b-col>
             <b-col lg="1">
-              <label for="code">最高:</label>
+              <label for="index_max_percent">最高:</label>
             </b-col>
             <b-col lg="3">
               <b-form-input
@@ -115,7 +88,38 @@
                 step="0.1"
                 min="-10.0"
                 max="10.0"
-                v-model="strategy.parameters.index_percent.high"
+                v-model="strategy.parameters.index_max_percent"
+              ></b-form-input>
+            </b-col>
+          </b-row>
+          <b-row no-gutters>
+            <b-col lg="4">
+              <label for="open_percent">开盘涨幅:</label>
+            </b-col>
+            <b-col lg="1">
+              <label for="min_open_percent">最低:</label>
+            </b-col>
+            <b-col lg="3">
+              <b-form-input
+                size="sm"
+                type="number"
+                step="0.1"
+                min="-10.0"
+                max="10.0"
+                v-model="strategy.parameters.min_open_percent"
+              ></b-form-input>
+            </b-col>
+            <b-col lg="1">
+              <label for="max_open_percent">最高:</label>
+            </b-col>
+            <b-col lg="3">
+              <b-form-input
+                size="sm"
+                type="number"
+                step="0.1"
+                min="-10.0"
+                max="10.0"
+                v-model="strategy.parameters.max_open_percent"
               ></b-form-input>
             </b-col>
           </b-row>
@@ -133,21 +137,174 @@
                 step="0.1"
                 min="-10.0"
                 max="10.0"
-                v-model="strategy.parameters.percent.low"
+                v-model="strategy.parameters.stock_percent"
               ></b-form-input>
             </b-col>
-            <b-col lg="1">
-              <label for="code">最高:</label>
+          </b-row>
+          <b-row no-gutters>
+            <b-col lg="4">
+              <label for="concepts">热门概念:</label>
             </b-col>
-            <b-col lg="3">
+            <b-col
+              lg="4"
+            >
               <b-form-input
                 size="sm"
-                type="number"
-                step="0.1"
-                min="-10.0"
-                max="10.0"
-                v-model="strategy.parameters.percent.high"
+                maxlength="50000"
+                id="concepts"
+                v-model="strategy.parameters.concepts"
               ></b-form-input>
+            </b-col>
+            <b-col lg="4">
+            </b-col>
+          </b-row>
+          <b-row no-gutters>
+            <b-col lg="4">
+              <label for="company_count">公司数量:</label>
+            </b-col>
+            <b-col
+              lg="4"
+            >
+              <b-form-input
+                size="sm"
+                maxlength="1000"
+                id="company_count"
+                v-model="strategy.parameters.company_count"
+              ></b-form-input>
+            </b-col>
+            <b-col lg="4">
+            </b-col>
+          </b-row>
+          <b-row no-gutters>
+            <b-col lg="4">
+              <label for="net_buy">净买入:</label>
+            </b-col>
+            <b-col
+              lg="4"
+            >
+              <b-form-input
+                size="sm"
+                maxlength="1000"
+                id="net_buy"
+                v-model="strategy.parameters.net_buy"
+              ></b-form-input>
+            </b-col>
+            <b-col lg="4">
+            </b-col>
+          </b-row>
+          <b-row no-gutters>
+            <b-col lg="4">
+              <label for="min_percent">最低涨幅:</label>
+            </b-col>
+            <b-col
+              lg="4"
+            >
+              <b-form-input
+                size="sm"
+                maxlength="10"
+                id="min_percent"
+                v-model="strategy.parameters.min_percent"
+              ></b-form-input>
+            </b-col>
+            <b-col lg="4">
+            </b-col>
+          </b-row>
+          <b-row no-gutters>
+            <b-col lg="4">
+              <label for="max_percent">最大涨幅:</label>
+            </b-col>
+            <b-col
+              lg="4"
+            >
+              <b-form-input
+                size="sm"
+                maxlength="10"
+                id="max_percent"
+                v-model="strategy.parameters.max_percent"
+              ></b-form-input>
+            </b-col>
+            <b-col lg="4">
+            </b-col>
+          </b-row>
+          <b-row no-gutters>
+            <b-col lg="4">
+              <label for="max_concept">概念数量:</label>
+            </b-col>
+            <b-col
+              lg="4"
+            >
+              <b-form-input
+                size="sm"
+                maxlength="10"
+                id="max_concept"
+                v-model="strategy.parameters.max_concept"
+              ></b-form-input>
+            </b-col>
+            <b-col lg="4">
+            </b-col>
+          </b-row>
+          <b-row no-gutters>
+            <b-col lg="4">
+              <label for="monitor_count">选取数量:</label>
+            </b-col>
+            <b-col
+              lg="4"
+            >
+              <b-form-input
+                size="sm"
+                maxlength="10"
+                id="monitor_count"
+                v-model="strategy.parameters.monitor_count"
+              ></b-form-input>
+            </b-col>
+            <b-col lg="4">
+            </b-col>
+          </b-row>
+          <b-row no-gutters>
+            <b-col lg="4">
+              <label for="top_concept">概念强弱:</label>
+            </b-col>
+            <b-col
+              lg="4"
+            >
+              <b-form-input
+                size="sm"
+                maxlength="10"
+                id="top_concept"
+                v-model="strategy.parameters.top_concept"
+              ></b-form-input>
+            </b-col>
+            <b-col lg="4">
+            </b-col>
+          </b-row>
+          <b-row no-gutters>
+            <b-col lg="4">
+              <label for="volume">买入总额(元):</label>
+            </b-col>
+            <b-col lg="4">
+              <b-form-input
+                size="sm"
+                maxlength="11"
+                id="volume"
+                v-model="strategy.parameters.volume"
+              ></b-form-input>
+            </b-col>
+            <b-col lg="4">
+            </b-col>
+          </b-row>
+          <b-row no-gutters>
+            <b-col lg="4">
+              <label for="strategy">监控策略:</label>
+            </b-col>
+            <b-col lg="4">
+              <b-form-input
+                size="sm"
+                maxlength="24"
+                id="strategy"
+                v-model="strategy.parameters.strategyId"
+              ></b-form-input>
+            </b-col>
+            <b-col lg="4">
             </b-col>
           </b-row>
           <b-row no-gutters>
