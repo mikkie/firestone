@@ -70,6 +70,9 @@
               v-on:input="check_line($event,data)"
             ></b-form-checkbox>
           </template>
+          <template v-slot:cell(code)="data">
+            {{ data.value.substring(0,30) }}
+          </template>
           <template v-slot:cell(strategy)="data">
             <b-link
               href="javascript:void(0)"
