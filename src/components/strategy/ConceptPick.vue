@@ -380,6 +380,9 @@ export default {
     });
   },
   methods: {
+    isMockTrade(){
+      return this.$parent.$data.isMock == true;
+    },
     setItemToLocalStorage(key, item){
       this.$data.localStorage.setItem(key, JSON.stringify(item))
     },
@@ -392,35 +395,44 @@ export default {
       let from = this.getItemFromLocalStorage("basic_params").from;
       let mockTrade = this.getItemFromLocalStorage("basic_params").mockTrade;
       if (from == "history") {
-        this.$router.push({ path: "/historym" });
+        let his_url = this.isMockTrade() ? "/historym" : "/history"
+        this.$router.push({ path: his_url });
         return;
       }
       /*create a new mockTrade*/
+      let url = this.isMockTrade() ? "/mocktrade" : "/trade"
+      let dest_url = this.isMockTrade() ? "/homem" : "/home"
       if (mockTrade == null) {
         api
-          .post("/mocktrade/new", {
+          .post(url + "/new", {
             accesstoken: this.$cookies.get("accesstoken"),
             strategyId: this.getItemFromLocalStorage("basic_params").strategyId,
             params: this.$data.strategy.parameters
           })
           .then(r => {
             if (r.code == that.$data.strategy.parameters.code) {
-              this.$router.push({ path: "/homem" });
+              this.$router.push({ path: dest_url });
             }
           });
       } else {
       /*update a mockTrade*/
+        let update_data = {
+          accesstoken: this.$cookies.get("accesstoken"),
+          update: {
+            params: this.$data.strategy.parameters
+          }
+        }
+        if(this.isMockTrade()){
+          update_data['mocktradeid'] = mockTrade._id
+        }
+        else{
+          update_data['tradeid'] = mockTrade._id
+        }
         api
-          .post("/mocktrade", {
-            accesstoken: this.$cookies.get("accesstoken"),
-            mocktradeid: mockTrade._id,
-            update: {
-              params: this.$data.strategy.parameters
-            }
-          })
+          .post(url, update_data)
           .then(r => {
             if (r.code == that.$data.strategy.parameters.code) {
-              this.$router.push({ path: "/homem" });
+              this.$router.push({ path: dest_url });
             }
           });
       }

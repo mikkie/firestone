@@ -2,8 +2,11 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Login from '@/components/Login'
 import MainMenu from '@/components/MainMenu'
+import Config from '@/components/Config'
 import ConfigM from '@/components/ConfigM'
 import HomeM from '@/components/HomeM'
+import Home from '@/components/Home'
+import History from '@/components/History'
 import HistoryM from '@/components/HistoryM'
 import Basic from '@/components/strategy/Basic'
 import BasicSell from '@/components/strategy/BasicSell'
@@ -27,14 +30,29 @@ let router = new Router({
       component: MainMenu
     },
     {
+      path: '/config',
+      name: 'Config',
+      component: Config
+    },
+    {
       path: '/configm',
       name: 'ConfigM',
       component: ConfigM
     },
     {
+      path: '/home',
+      name: 'Home',
+      component: Home
+    },
+    {
       path: '/homem',
       name: 'HomeM',
       component: HomeM
+    },
+    {
+      path: '/history',
+      name: 'History',
+      component: History
     },
     {
       path: '/historym',

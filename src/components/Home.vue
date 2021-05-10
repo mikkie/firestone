@@ -1,6 +1,6 @@
 <template>
   <div class="homem">
-    <h5>模拟交易</h5>
+    <h5>实盘交易</h5>
     <b-container>
       <div>
         <b-form
@@ -142,7 +142,7 @@
 import api from "@/api";
 import { setInterval } from 'timers';
 export default {
-  name: "home_m",
+  name: "home",
   data() {
     return {
       fields: [
@@ -188,9 +188,9 @@ export default {
   },
   created: function() {
     this.$emit("login", true);
-    this.$emit("isMock", true);
-    this.findMockTrades();
-    this.$data.inter = window.setInterval(this.findMockTrades,30000);
+    this.$emit("isMock", false);
+    this.findTrades();
+    this.$data.inter = window.setInterval(this.findTrades,30000);
     api.get("/strategy").then(res => {
       if (res instanceof Array) {
         for (let i in res) {
@@ -217,9 +217,9 @@ export default {
     }
   },
   methods: {
-    findMockTrades() {
+    findTrades() {
       let that = this;
-      api.get(`/mocktrade/${this.$cookies.get("accesstoken")}`).then(res => {
+      api.get(`/trade/${this.$cookies.get("accesstoken")}`).then(res => {
         for (let i in res) {
           if(i >= that.$data.items.length || that.$data.items[i].checked == undefined){
             res[i]["checked"] = false;
@@ -291,9 +291,9 @@ export default {
           if (["未开始", "已完成"].indexOf(this.items[i].state) >= 0) {
             let that = this;
             api
-              .post("/mocktrade", {
+              .post("/trade", {
                 accesstoken: this.$cookies.get("accesstoken"),
-                mocktradeid: this.items[i]._id,
+                tradeid: this.items[i]._id,
                 update: {
                   deleted: true
                 }
@@ -310,7 +310,7 @@ export default {
       }
     },
     refreshItem(evt) {
-      this.findMockTrades()
+      this.findTrades()
     },
     startFireStoneRock(code, tradeId, isMock) {
       let codes = [code];
@@ -338,9 +338,9 @@ export default {
             if (["已提交", "撤销", "已完成"].indexOf(this.items[i].state) < 0 && this.items[i].params.executeDate == todayStr) {
               let that = this;
               api
-                .post("/mocktrade", {
+                .post("/trade", {
                   accesstoken: this.$cookies.get("accesstoken"),
-                  mocktradeid: this.items[i]._id,
+                  tradeid: this.items[i]._id,
                   update: {
                     state: "运行中"
                   }
@@ -353,7 +353,7 @@ export default {
                       that.startFireStoneRock(
                         this.items[i].params["code"],
                         this.items[i]._id,
-                        true
+                        false
                       );
                     }
                   }
@@ -379,9 +379,9 @@ export default {
             ) {
               let that = this;
               api
-                .post("/mocktrade", {
+                .post("/trade", {
                   accesstoken: this.$cookies.get("accesstoken"),
-                  mocktradeid: this.items[i]._id,
+                  tradeid: this.items[i]._id,
                   update: {
                     state: "暂停"
                   }
@@ -410,9 +410,9 @@ export default {
             if (this.items[i].state == "已提交") {
               let that = this;
               api
-                .post("/mocktrade", {
+                .post("/trade", {
                   accesstoken: this.$cookies.get("accesstoken"),
-                  mocktradeid: this.items[i]._id,
+                  tradeid: this.items[i]._id,
                   update: {
                     state: "撤销"
                   }
@@ -440,9 +440,9 @@ export default {
             if (["未开始", "已提交", "撤销"].indexOf(this.items[i].state) < 0) {
               let that = this;
               api
-                .post("/mocktrade", {
+                .post("/trade", {
                   accesstoken: this.$cookies.get("accesstoken"),
-                  mocktradeid: this.items[i]._id,
+                  tradeid: this.items[i]._id,
                   update: {
                     state: "已完成"
                   }

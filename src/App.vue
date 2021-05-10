@@ -30,7 +30,8 @@
               v-on:click="goConfig"
               v-if="isMock != null"
             >账户</b-dropdown-item>
-            <b-dropdown-item id="mockRealSwitch" href="javascript:void(0)" v-if="isMock == true" v-on:click="showTips('danger','暂未开放')">实盘</b-dropdown-item>
+            <b-dropdown-item id="mockRealSwitch" href="javascript:void(0)" v-if="isMock == true" v-on:click="switchToReal">实盘</b-dropdown-item>
+            <b-dropdown-item id="mockRealSwitch" href="javascript:void(0)" v-if="isMock == false" v-on:click="switchToReal">模拟盘</b-dropdown-item>
             <b-dropdown-item id="exit" href="/" v-on:click="logout">退出</b-dropdown-item>
           </b-nav-item-dropdown>
         </b-navbar-nav>
@@ -77,21 +78,32 @@ export default {
     };
   },
   methods: {
+    switchToReal(evt){
+      this.isMock = !this.isMock
+      this.goHome(evt)
+    },
     goHome(evt) {
-      if(this.isLogined && this.isMock == true){
-        this.$router.push({ path: "/homem" });
+      if(this.isLogined){
+        if(this.isMock == true){
+          this.$router.push({ path: "/homem" });
+        }  
+        else{
+          this.$router.push({ path: "/home" });
+        }
       }
     },
     updateIsMock(isMock){
       this.isMock = isMock; 
     },
     goHistory(evt) {
+      let url = this.$data.isMock == true ? "/historym" : "/history"
       evt.preventDefault();
-      this.$router.push({ path: "/historym" });
+      this.$router.push({ path: url });
     },
     goConfig(evt) {
+      let url = this.$data.isMock == true ? "/configm" : "/config"
       evt.preventDefault();
-      this.$router.push({ path: "/configm" });
+      this.$router.push({ path: url });
     },
     updateLogin(isLogined) {
       this.isLogined = isLogined;

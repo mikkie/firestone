@@ -32,7 +32,7 @@
             style="max-width: 20rem;"
             class="mb-2"
           >
-            <div class="desc">实盘交易(暂不开放).</div>
+            <div class="desc">实盘交易.</div>
             <div>
               <b-button
                 variant="danger"
@@ -57,7 +57,7 @@ export default {
       this.$router.push({ path:'/configm' })
     },
     startReal(){
-      this.$emit("tips", "danger", "暂未开放");
+      this.$router.push({ path:'/config' })
     }
   }
 };

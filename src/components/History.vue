@@ -1,6 +1,6 @@
 <template>
   <div class="historym">
-    <h5>模拟交易记录</h5>
+    <h5>交易记录</h5>
     <b-container>
       <div>
         <b-form
@@ -49,7 +49,7 @@
 <script>
 import api from "@/api";
 export default {
-  name: "history_m",
+  name: "history",
   created: function() {
     this.$emit("login", true);
     this.$data.createdDate = this.formatDate(new Date());
@@ -112,7 +112,7 @@ export default {
     queryHistoryData() {
       let that = this;
       api
-        .post("/mocktrade/history", {
+        .post("/trade/history", {
           accesstoken: this.$cookies.get("accesstoken"),
           createdDate: this.$data.createdDate,
           code: this.$data.code
