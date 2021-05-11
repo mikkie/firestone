@@ -53,6 +53,12 @@
             size="md"
             v-on:click="refreshItem"
           >刷新</b-button>
+          <b-button
+            id="reset_item"
+            variant="light"
+            size="md"
+            v-on:click="resetItem"
+          >重置</b-button>
         </b-form>
       </div>
       <div>
@@ -465,9 +471,47 @@ export default {
           );
         }
       }
+    },
+    resetItem(evt){
+      if (this.check_selected()) {
+        let popupTip = false;
+        for (let i in this.items) {
+          if (this.items[i].checked == true) {
+            if (["未开始", "已完成"].indexOf(this.items[i].state) >= 0) {
+              let that = this;
+              let exeDate = new Date();
+              if (exeDate.getHours() >= 15) {
+                exeDate.setDate(exeDate.getDate() + 1);
+              }
+              let executeDate = `${exeDate.getFullYear()}-${('0' + (exeDate.getMonth() + 1)).slice(-2)}-${('0' + exeDate.getDate()).slice(-2)}`;
+              api.post("/trade", {
+                  accesstoken: that.$cookies.get("accesstoken"),
+                  tradeid: that.items[i]._id,
+                  update: {
+                    state: "未开始",
+                    result: "无",
+                    $unset: { order: "" },
+                    "params.executeDate" : executeDate
+                  }
+                })
+                .then(r => {
+                  if (r.state == "未开始") {
+                    that.items[i].state = r.state;
+                    that.items[i].result = r.result;
+                    that.items[i].order = r.order;
+                    that.items[i].params.executeDate = r.params.executeDate;
+                  }
+                })
+            }
+            else{
+              popupTip = true;
+            }
+          }
+        }
+      }
     }
   }
-};
+}
 </script>
 <style>
 .toobar button {
