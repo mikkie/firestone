@@ -13,6 +13,7 @@ import BasicSell from '@/components/strategy/BasicSell'
 import Ydls from '@/components/strategy/Ydls'
 import ConceptPick from '@/components/strategy/ConceptPick'
 import BatchYdls from '@/components/strategy/BatchYdls'
+import PPT0 from '@/components/strategy/PPT0'
 import api from '@/api'
 
 Vue.use(Router)
@@ -83,6 +84,11 @@ let router = new Router({
       path: '/strategy/batchydls',
       name: 'BatchYdls',
       component: BatchYdls
+    },
+    {
+      path: '/strategy/ppt0',
+      name: 'PPT0',
+      component: PPT0
     }
   ]
 })
