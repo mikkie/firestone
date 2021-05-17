@@ -508,6 +508,13 @@ export default {
             }
           }
         }
+        if (popupTip) {
+          this.$emit(
+            "tips",
+            "danger",
+            "状态为[未开始],[已完成]才可以重置"
+          );
+        }
       }
     }
   }
