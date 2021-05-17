@@ -161,12 +161,20 @@
             <b-col lg="1">
               <label for="close_low_interval_time">间隔:</label>
             </b-col>
-            <b-col lg="2">
+            <b-col lg="1">
               <b-form-input
                 size="sm"
                 maxlength="5"
                 id="close_low_interval_time"
                 v-model="strategy.parameters.close_low_interval_time"
+              ></b-form-input>
+            </b-col>
+            <b-col lg="1">
+              <b-form-input
+                size="sm"
+                maxlength="5"
+                id="close_low_interval_time_max"
+                v-model="strategy.parameters.close_low_interval_time_max"
               ></b-form-input>
             </b-col>
           </b-row>
