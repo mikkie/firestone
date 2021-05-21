@@ -234,6 +234,10 @@ export default {
       return JSON.parse(itemString)
     },
     save(evt) {
+      if(this.$data.strategy.parameters.code.trim().length == 0){
+        this.$emit("tips", "danger", "请输入股票代码");
+        return;
+      }
       let that = this;
       let from = this.getItemFromLocalStorage("basic_params").from;
       let mockTrade = this.getItemFromLocalStorage("basic_params").mockTrade;
