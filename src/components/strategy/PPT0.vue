@@ -89,6 +89,21 @@
             </b-col>
           </b-row>
           <b-row no-gutters>
+            <b-col lg="4">
+              <label for="points">枢轴点系统:</label>
+            </b-col>
+            <b-col lg="4">
+              <b-form-input
+                size="sm"
+                maxlength="3"
+                id="points"
+                v-model="strategy.parameters.points"
+              ></b-form-input>
+            </b-col>
+            <b-col lg="4">
+            </b-col>
+          </b-row>
+          <b-row no-gutters>
             <b-col lg="3">
               <label for="yest_price">昨日价格:</label>
             </b-col>
