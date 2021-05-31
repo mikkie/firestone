@@ -104,6 +104,21 @@
             </b-col>
           </b-row>
           <b-row no-gutters>
+            <b-col lg="4">
+              <label for="approach">逼近率:</label>
+            </b-col>
+            <b-col lg="4">
+              <b-form-input
+                size="sm"
+                maxlength="6"
+                id="approach"
+                v-model="strategy.parameters.approach"
+              ></b-form-input>
+            </b-col>
+            <b-col lg="4">
+            </b-col>
+          </b-row>
+          <b-row no-gutters>
             <b-col lg="3">
               <label for="yest_price">昨日价格:</label>
             </b-col>
