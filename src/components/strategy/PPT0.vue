@@ -180,7 +180,15 @@
             <b-col lg="1">
               <label for="down_shadow_body_ratio">下影:</label>
             </b-col>
-            <b-col lg="2">
+            <b-col lg="1">
+              <b-form-input
+                size="sm"
+                maxlength="5"
+                id="down_shadow_body_ratio_min"
+                v-model="strategy.parameters.down_shadow_body_ratio_min"
+              ></b-form-input>
+            </b-col>
+            <b-col lg="1">
               <b-form-input
                 size="sm"
                 maxlength="5"
