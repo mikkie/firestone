@@ -27,6 +27,45 @@
           </b-col>
         </b-row>
         <b-row>
+          <b-col
+            lg="6"
+            class="label"
+          >
+            <label for="valid-key">key:</label>
+          </b-col>
+          <b-col
+            lg="2"
+            class="input"
+          >
+            <b-form-input
+              id="valid-key"
+              required
+              v-model="config.validatekey"
+            ></b-form-input>
+          </b-col>
+        </b-row>
+        <b-row>
+          <b-col
+            lg="6"
+            class="label"
+          >
+            <label for="cookie">Cookie:</label>
+          </b-col>
+          <b-col
+            lg="2"
+            class="input"
+          >
+            <b-form-textarea
+              id="cookie"
+              required
+              v-model="config.cookie"
+              placeholder="cookie值"
+              rows="3"
+              max-rows="6"
+            ></b-form-textarea>
+          </b-col>
+        </b-row>
+        <b-row>
           <b-col lg="12">
             <b-button
               id="available_amount"
@@ -64,7 +103,9 @@ export default {
         .post("/config", {
           accesstoken: this.$cookies.get("accesstoken"),
           update: {
-            maxBuyNum: this.$data.config.maxBuyNum
+            maxBuyNum: this.$data.config.maxBuyNum,
+            cookie: this.$data.config.cookie,
+            validatekey: this.$data.config.validatekey
           }
         })
         .then(r => {
