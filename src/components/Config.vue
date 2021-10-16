@@ -49,6 +49,24 @@
             lg="6"
             class="label"
           >
+            <label for="gddm">gddm:</label>
+          </b-col>
+          <b-col
+            lg="2"
+            class="input"
+          >
+            <b-form-input
+              id="gddm"
+              required
+              v-model="config.gddm"
+            ></b-form-input>
+          </b-col>
+        </b-row>
+        <b-row>
+          <b-col
+            lg="6"
+            class="label"
+          >
             <label for="cookie">Cookie:</label>
           </b-col>
           <b-col
@@ -105,7 +123,8 @@ export default {
           update: {
             maxBuyNum: this.$data.config.maxBuyNum,
             cookie: this.$data.config.cookie,
-            validatekey: this.$data.config.validatekey
+            validatekey: this.$data.config.validatekey,
+            gddm: this.$data.config.gddm
           }
         })
         .then(r => {
