@@ -113,7 +113,18 @@ export default {
   methods: {
     validate(evt){
       evt.preventDefault();
-      this.onSubmit();
+      let that = this;
+      api.post("/firestonerock/pingdfcfheartbeat", {
+        cookie : this.$data.config.cookie,
+        validatekey: this.$data.config.validatekey
+      }).then(r => {
+        if(r && r.Status == 0){
+          that.onSubmit();
+        }
+        else{
+          that.$emit("tips", "danger", "校验失败，请检查cookie, validatekey配置");
+        }
+      });
     },
     onSubmit() {
       let that = this;
