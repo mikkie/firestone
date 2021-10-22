@@ -193,7 +193,16 @@
                 v-model="strategy.parameters.speed.break_top"
               ></b-form-input>
             </b-col>
-            <b-col lg="4">
+            <b-col lg="2">
+              <label for="auto_cancel">自动撤单:</label>
+            </b-col>
+            <b-col lg="2">
+              <b-form-input
+                size="sm"
+                maxlength="1"
+                id="auto_cancel"
+                v-model="strategy.parameters.auto_cancel"
+              ></b-form-input>
             </b-col>
           </b-row>
           <b-row no-gutters>
