@@ -90,40 +90,25 @@
           </b-row>
           <b-row no-gutters>
             <b-col lg="4">
-              <label for="points">枢轴点系统:</label>
-            </b-col>
-            <b-col lg="4">
-              <b-form-input
-                size="sm"
-                maxlength="3"
-                id="points"
-                v-model="strategy.parameters.points"
-              ></b-form-input>
-            </b-col>
-            <b-col lg="4">
-            </b-col>
-          </b-row>
-          <b-row no-gutters>
-            <b-col lg="4">
-              <label for="approach">逼近率:</label>
+              <label for="start_buy_line">开盘下跌:</label>
             </b-col>
             <b-col lg="4">
               <b-form-input
                 size="sm"
                 maxlength="6"
                 id="approach"
-                v-model="strategy.parameters.approach"
+                v-model="strategy.parameters.start_buy_line"
               ></b-form-input>
             </b-col>
             <b-col lg="4">
             </b-col>
           </b-row>
           <b-row no-gutters>
-            <b-col lg="3">
-              <label for="yest_price">昨日价格:</label>
+            <b-col lg="4">
+              <label for="yest_price">反弹:</label>
             </b-col>
-            <b-col lg="1">
-              <label for="low">最低:</label>
+            <b-col lg="2">
+              <label for="min_rebound">最低:</label>
             </b-col>
             <b-col lg="2">
               <b-form-input
@@ -132,11 +117,11 @@
                 step="0.1"
                 min="-10.0"
                 max="10.0"
-                v-model="strategy.parameters.pre.low"
+                v-model="strategy.parameters.min_rebound"
               ></b-form-input>
             </b-col>
-            <b-col lg="1">
-              <label for="high">最高:</label>
+            <b-col lg="2">
+              <label for="max_rebound">最高:</label>
             </b-col>
             <b-col lg="2">
               <b-form-input
@@ -145,74 +130,38 @@
                 step="0.1"
                 min="-10.0"
                 max="10.0"
-                v-model="strategy.parameters.pre.high"
-              ></b-form-input>
-            </b-col>
-            <b-col lg="1">
-              <label for="close">收盘:</label>
-            </b-col>
-            <b-col lg="2">
-              <b-form-input
-                size="sm"
-                type="number"
-                step="0.1"
-                min="-10.0"
-                max="10.0"
-                v-model="strategy.parameters.pre.close"
+                v-model="strategy.parameters.max_rebound"
               ></b-form-input>
             </b-col>
           </b-row>
           <b-row no-gutters>
-            <b-col lg="3">
-              <label for="k">K线形态:</label>
+            <b-col lg="4">
+              <label for="speed">涨速异动:</label>
             </b-col>
-            <b-col lg="1">
-              <label for="body_length">实体:</label>
+            <b-col lg="2">
+              <label for="time_2">分钟:</label>
             </b-col>
             <b-col lg="2">
               <b-form-input
                 size="sm"
-                maxlength="5"
-                id="body_length"
-                v-model="strategy.parameters.body_length"
+                type="number"
+                step="0.5"
+                min="1"
+                max="5"
+                v-model="strategy.parameters.speed.time_2"
               ></b-form-input>
             </b-col>
-            <b-col lg="1">
-              <label for="down_shadow_body_ratio">下影:</label>
+            <b-col lg="2">
+              <label for="percent">涨幅(万):</label>
             </b-col>
-            <b-col lg="1">
+            <b-col lg="2">
               <b-form-input
                 size="sm"
-                maxlength="5"
-                id="down_shadow_body_ratio_min"
-                v-model="strategy.parameters.down_shadow_body_ratio_min"
-              ></b-form-input>
-            </b-col>
-            <b-col lg="1">
-              <b-form-input
-                size="sm"
-                maxlength="5"
-                id="down_shadow_body_ratio"
-                v-model="strategy.parameters.down_shadow_body_ratio"
-              ></b-form-input>
-            </b-col>
-            <b-col lg="1">
-              <label for="close_low_interval_time">间隔:</label>
-            </b-col>
-            <b-col lg="1">
-              <b-form-input
-                size="sm"
-                maxlength="5"
-                id="close_low_interval_time"
-                v-model="strategy.parameters.close_low_interval_time"
-              ></b-form-input>
-            </b-col>
-            <b-col lg="1">
-              <b-form-input
-                size="sm"
-                maxlength="5"
-                id="close_low_interval_time_max"
-                v-model="strategy.parameters.close_low_interval_time_max"
+                type="number"
+                step="1"
+                min="10"
+                max="50000"
+                v-model="strategy.parameters.speed.percent"
               ></b-form-input>
             </b-col>
           </b-row>
@@ -221,7 +170,7 @@
               <label for="money">资金异动:</label>
             </b-col>
             <b-col lg="2">
-              <label for="money">分钟:</label>
+              <label for="time">分钟:</label>
             </b-col>
             <b-col lg="2">
               <b-form-input
@@ -234,7 +183,7 @@
               ></b-form-input>
             </b-col>
             <b-col lg="2">
-              <label for="code">成交(万):</label>
+              <label for="amount">成交(万):</label>
             </b-col>
             <b-col lg="2">
               <b-form-input
