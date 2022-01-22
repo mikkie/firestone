@@ -90,17 +90,33 @@
           </b-row>
           <b-row no-gutters>
             <b-col lg="4">
-              <label for="start_buy_line">开盘下跌:</label>
+              <label for="start_buy_line">下跌:</label>
             </b-col>
-            <b-col lg="4">
+            <b-col lg="2">
+              <label for="start_buy_line">跌幅:</label>
+            </b-col>
+            <b-col lg="2">
               <b-form-input
                 size="sm"
-                maxlength="6"
-                id="approach"
+                type="number"
+                step="0.1"
+                min="-10.0"
+                max="10.0"
                 v-model="strategy.parameters.start_buy_line"
               ></b-form-input>
             </b-col>
-            <b-col lg="4">
+            <b-col lg="2">
+              <label for="buy_on_low_limit">跌停:</label>
+            </b-col>
+            <b-col lg="2">
+              <b-form-input
+                size="sm"
+                type="number"
+                step="0.1"
+                min="-10.0"
+                max="10.0"
+                v-model="strategy.parameters.buy_on_low_limit"
+              ></b-form-input>
             </b-col>
           </b-row>
           <b-row no-gutters>
